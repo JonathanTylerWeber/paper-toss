@@ -1,4 +1,4 @@
-import { OrbitControls } from "@react-three/drei";
+// import { OrbitControls } from "@react-three/drei";
 import { CuboidCollider, Physics, RigidBody } from "@react-three/rapier";
 import Ball from "./Ball";
 import TrashCan from "./TrashCan";
@@ -10,7 +10,7 @@ export default function Experience() {
 
   return (
     <>
-      <OrbitControls makeDefault />
+      {/* <OrbitControls makeDefault /> */}
 
       <Physics debug>
         <Ball />
@@ -30,7 +30,7 @@ export default function Experience() {
         </RigidBody>
 
         {/* red pad (visual only) */}
-        <RigidBody type="fixed" rotation-x={-Math.PI / 2} position={[0, 1, 5]}>
+        <RigidBody type="fixed" rotation-x={-Math.PI / 2} position={[0, 1, 6]}>
           <mesh scale={5}>
             <planeGeometry />
             <meshBasicMaterial color="red" />
@@ -38,7 +38,7 @@ export default function Experience() {
         </RigidBody>
 
         {/* throw-pad sensor as its own static body */}
-        <RigidBody type="fixed" position={[0, 1.05, 5]}>
+        <RigidBody type="fixed" position={[0, 1.05, 6]}>
           <CuboidCollider
             args={[2.5, 0.1, 2.5]} // x-half, y-half, z-half
             sensor // non-blocking overlap detector

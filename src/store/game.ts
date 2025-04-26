@@ -3,6 +3,8 @@ import { create } from "zustand";
 type GameState = {
   score: number;
   resetCount: number;
+  arrowAngle: number;
+  setArrowAngle: (angle: number) => void;
   onPad: boolean;
   setOnPad: (v: boolean) => void;
   increment: () => void;
@@ -12,7 +14,9 @@ type GameState = {
 export const useGameStore = create<GameState>((set) => ({
   score: 0,
   resetCount: 0,
+  arrowAngle: 0,
   onPad: false,
+  setArrowAngle: (angle) => set({ arrowAngle: angle }),
   setOnPad: (v) => set({ onPad: v }),
   increment: () =>
     set((s) => ({

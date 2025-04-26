@@ -6,6 +6,7 @@ export default function Ball() {
   const ballRef = useRef<RapierRigidBody>(null);
   const resetCount = useGameStore((s) => s.resetCount);
   const onPad = useGameStore((s) => s.onPad);
+  const setAngle = useGameStore((s) => s.setArrowAngle);
 
   // teleport and un-rotate on any resetCount change:
   useEffect(() => {
@@ -21,10 +22,12 @@ export default function Ball() {
       body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
       //   stop any spinning
       body.setAngvel({ x: 0, y: 0, z: 0 }, true);
+
+      setAngle(0);
     }, 700);
 
     return () => clearTimeout(timer);
-  }, [resetCount]);
+  }, [resetCount, setAngle]);
 
   // store the drag origin in a ref (so it survives across renders without stale-closure issues)
   const dragStart = useRef<[number, number] | null>(null);
@@ -46,6 +49,8 @@ export default function Ball() {
       const max = Math.PI / 4; // ±45°
       angle = Math.max(-max, Math.min(max, angle));
 
+      setAngle(angle);
+
       // constant strength – you can scale by drag length if you like
       const strength = 6;
       const ix = Math.sin(angle) * strength;
@@ -64,7 +69,7 @@ export default function Ball() {
       window.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointerup", onPointerUp);
     };
-  }, [onPad]);
+  }, [onPad, setAngle]);
 
   return (
     <RigidBody ref={ballRef} colliders="cuboid" position={[0, 1.5, 5]}>
