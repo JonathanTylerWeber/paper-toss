@@ -52,7 +52,7 @@ export default function Ball() {
       setAngle(angle);
 
       // constant strength – you can scale by drag length if you like
-      const strength = 6;
+      const strength = 7;
       const ix = Math.sin(angle) * strength;
       const iz = Math.cos(angle) * strength;
 

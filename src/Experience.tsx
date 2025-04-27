@@ -3,6 +3,7 @@ import { CuboidCollider, Physics, RigidBody } from "@react-three/rapier";
 import Ball from "./Ball";
 import TrashCan from "./TrashCan";
 import { useGameStore } from "./store/game";
+import WindZone from "./WindZone";
 
 export default function Experience() {
   const reset = useGameStore.getState().reset;
@@ -14,6 +15,8 @@ export default function Experience() {
 
       <Physics debug>
         <Ball />
+
+        <WindZone />
 
         <RigidBody
           type="fixed"
