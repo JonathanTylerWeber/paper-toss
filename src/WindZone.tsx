@@ -9,6 +9,7 @@ import {
 } from "@react-three/rapier";
 import { useState, useCallback } from "react";
 import { useFrame } from "@react-three/fiber";
+import { useGameStore } from "./store/game";
 
 interface WindZoneProps {
   position?: [number, number, number];
@@ -19,9 +20,13 @@ interface WindZoneProps {
 export default function WindZone({
   position = [0, 1, -1], // ← start _behind_ the ball so it has to enter
   size = [5, 3, 5],
-  strength = 3,
 }: WindZoneProps) {
   const [bodies] = useState<Set<RapierRigidBody>>(() => new Set());
+  const isWindOn = useGameStore((state) => state.isWindOn);
+  const windStrength = useGameStore((s) => s.windStrength);
+  const windDirection = useGameStore((s) => s.windDirection);
+
+  console.log("isWindOn", isWindOn);
 
   const onEnter: IntersectionEnterHandler = useCallback(
     (p: IntersectionEnterPayload) => {
@@ -39,7 +44,11 @@ export default function WindZone({
   );
 
   useFrame((_, delta) => {
-    const impulse = strength * delta;
+    if (!isWindOn) return;
+    let impulse = windStrength * delta;
+    if (windDirection === "left") {
+      impulse *= -1;
+    }
     bodies.forEach((b) => b.applyImpulse({ x: impulse, y: 0, z: 0 }, true));
   });
 

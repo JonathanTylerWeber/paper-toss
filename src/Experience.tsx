@@ -7,7 +7,7 @@ import WindZone from "./WindZone";
 
 export default function Experience() {
   const reset = useGameStore.getState().reset;
-  const setOnPad = useGameStore((s) => s.setOnPad);
+  const setIsOnPad = useGameStore((s) => s.setIsOnPad);
 
   return (
     <>
@@ -45,8 +45,8 @@ export default function Experience() {
           <CuboidCollider
             args={[2.5, 0.1, 2.5]} // x-half, y-half, z-half
             sensor // non-blocking overlap detector
-            onIntersectionEnter={() => setOnPad(true)}
-            onIntersectionExit={() => setOnPad(false)}
+            onIntersectionEnter={() => setIsOnPad(true)}
+            onIntersectionExit={() => setIsOnPad(false)}
           />
         </RigidBody>
 

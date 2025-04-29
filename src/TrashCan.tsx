@@ -4,6 +4,7 @@ import { useGameStore } from "./store/game";
 
 export default function TrashCan() {
   const increment = useGameStore.getState().increment;
+  const setIsWindOn = useGameStore((s) => s.setIsWindOn);
 
   return (
     <group position={[0, 0.5, -3]}>
@@ -24,6 +25,15 @@ export default function TrashCan() {
         </mesh>
       </RigidBody>
 
+      {/* turn wind off sensor */}
+      <CuboidCollider
+        args={[1, 1, 1]}
+        position={[0, 0, 0]}
+        sensor
+        onIntersectionEnter={() => setIsWindOn(false)}
+      />
+
+      {/* score sensor */}
       <CuboidCollider
         args={[0.5, 0.1, 0.5]} // width, height, depth
         position={[0, 0, 0]} // line it up inside the can

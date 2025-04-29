@@ -1,13 +1,11 @@
 import { Canvas } from "@react-three/fiber";
 import Experience from "./Experience";
-import ScoreBoard from "./ScoreBoard";
-import Arrow from "./Arrow";
+import Interface from "./Interface";
 
 function App() {
   return (
     <>
-      <ScoreBoard />
-      <Arrow />
+      <Interface />
 
       <Canvas
         camera={{

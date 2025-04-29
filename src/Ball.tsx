@@ -5,8 +5,9 @@ import { useGameStore } from "./store/game";
 export default function Ball() {
   const ballRef = useRef<RapierRigidBody>(null);
   const resetCount = useGameStore((s) => s.resetCount);
-  const onPad = useGameStore((s) => s.onPad);
+  const isOnPad = useGameStore((s) => s.isOnPad);
   const setAngle = useGameStore((s) => s.setArrowAngle);
+  const throwStrength = useGameStore((s) => s.throwStrength);
 
   // teleport and un-rotate on any resetCount change:
   useEffect(() => {
@@ -39,7 +40,7 @@ export default function Ball() {
     };
 
     const onPointerUp = (e: PointerEvent) => {
-      if (!dragStart.current || !onPad) return;
+      if (!dragStart.current || !isOnPad) return;
       const [startX, startY] = dragStart.current;
       const dx = e.clientX - startX;
       const dy = startY - e.clientY; // invert so "drag up" is positive
@@ -51,12 +52,10 @@ export default function Ball() {
 
       setAngle(angle);
 
-      // constant strength – you can scale by drag length if you like
-      const strength = 7;
-      const ix = Math.sin(angle) * strength;
-      const iz = Math.cos(angle) * strength;
+      const ix = Math.sin(angle) * throwStrength;
+      const iz = Math.cos(angle) * throwStrength;
 
-      ballRef.current?.applyImpulse({ x: ix, y: 6, z: -iz }, true);
+      ballRef.current?.applyImpulse({ x: ix, y: 7, z: -iz }, true);
 
       dragStart.current = null;
     };
@@ -69,7 +68,7 @@ export default function Ball() {
       window.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointerup", onPointerUp);
     };
-  }, [onPad, setAngle]);
+  }, [isOnPad, setAngle, throwStrength]);
 
   return (
     <RigidBody ref={ballRef} colliders="cuboid" position={[0, 1.5, 5]}>
