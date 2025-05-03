@@ -1,6 +1,8 @@
 import { RigidBody, RapierRigidBody } from "@react-three/rapier";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { useGameStore } from "./store/game";
+import { useGLTF, useTexture } from "@react-three/drei";
+import * as THREE from "three";
 
 export default function Ball() {
   const ballRef = useRef<RapierRigidBody>(null);
@@ -9,6 +11,21 @@ export default function Ball() {
   const throwStrength = useGameStore((s) => s.throwStrength);
   const setIsThrown = useGameStore((s) => s.setIsThrown);
   const setAngle = useGameStore((s) => s.setArrowAngle);
+
+  const { nodes } = useGLTF("./crumpledPaper.glb");
+  const ico = nodes.Icosphere as THREE.Mesh;
+  const bakedTexture = useTexture("./paperBaked.jpg");
+  bakedTexture.flipY = false;
+
+  const initialEuler = useMemo(
+    () => new THREE.Euler(Math.PI / 4, Math.PI / 2, 0),
+    []
+  );
+  const initialQuatObj = useMemo(() => {
+    const q = new THREE.Quaternion().setFromEuler(initialEuler);
+    // `setRotation` wants a plain object – pull the components out:
+    return { x: q.x, y: q.y, z: q.z, w: q.w };
+  }, [initialEuler]);
 
   // teleport and un-rotate on any resetCount change:
   useEffect(() => {
@@ -21,7 +38,7 @@ export default function Ball() {
 
       // 2) rotation & angular velocity
       //   identity quaternion = no rotation
-      body.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
+      body.setRotation(initialQuatObj, true);
       //   stop any spinning
       body.setAngvel({ x: 0, y: 0, z: 0 }, true);
 
@@ -29,7 +46,7 @@ export default function Ball() {
     }, 700);
 
     return () => clearTimeout(timer);
-  }, [resetCount, setAngle]);
+  }, [initialQuatObj, resetCount, setAngle]);
 
   // store the drag origin in a ref (so it survives across renders without stale-closure issues)
   const dragStart = useRef<[number, number] | null>(null);
@@ -57,7 +74,9 @@ export default function Ball() {
       const ix = Math.sin(angle) * throwStrength;
       const iz = Math.cos(angle) * throwStrength;
 
-      ballRef.current?.applyImpulse({ x: ix, y: 7, z: -iz }, true);
+      ballRef.current?.applyImpulse({ x: ix, y: 0.35, z: -iz }, true);
+
+      ballRef.current?.setAngvel({ x: -10, y: 0, z: 0 }, true);
 
       dragStart.current = null;
       setIsThrown(true);
@@ -74,10 +93,18 @@ export default function Ball() {
   }, [isOnPad, setAngle, setIsThrown, throwStrength]);
 
   return (
-    <RigidBody ref={ballRef} colliders="cuboid" position={[0, 1.5, 5]}>
-      <mesh>
+    <RigidBody
+      ref={ballRef}
+      colliders="ball"
+      position={[0, 1.5, 5]}
+      rotation={[initialEuler.x, initialEuler.y, initialEuler.z]}
+    >
+      {/* <mesh>
         <boxGeometry />
         <meshBasicMaterial color="mediumpurple" />
+      </mesh> */}
+      <mesh scale={5} geometry={ico.geometry}>
+        <meshBasicMaterial map={bakedTexture} />
       </mesh>
     </RigidBody>
   );

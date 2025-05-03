@@ -34,7 +34,11 @@ export default function Experience() {
         </RigidBody>
 
         {/* red pad (visual only) */}
-        <RigidBody type="fixed" rotation-x={-Math.PI / 2} position={[0, 1, 6]}>
+        <RigidBody
+          type="fixed"
+          rotation-x={-Math.PI / 2}
+          position={[0, 1, 6.5]}
+        >
           <mesh scale={5}>
             <planeGeometry />
             <meshBasicMaterial color="red" />

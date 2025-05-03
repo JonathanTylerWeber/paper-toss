@@ -26,7 +26,7 @@ export default function Interface() {
       >
         {/* 2. Wind info (one flex item) */}
         <div className="text-center mb-2">
-          <div className="text-sm">{windStrength}</div>
+          <div className="text-sm">{(windStrength * 10).toFixed(1)}</div>
           <div className="flex justify-center">
             {windDirection === "right" ? <ArrowRight /> : <ArrowLeft />}
           </div>

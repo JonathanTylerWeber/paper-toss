@@ -20,11 +20,11 @@ type GameState = {
 };
 
 function computeThrowStrength(ws: number): number {
-  if (ws <= 2) return 5.5;
-  if (ws <= 4) return 6;
-  if (ws <= 5) return 6.25;
-  if (ws <= 6) return 6.5;
-  return 7;
+  if (ws <= 0.2) return 0.425;
+  if (ws <= 0.4) return 0.45;
+  if (ws <= 0.5) return 0.475;
+  if (ws <= 0.6) return 0.5;
+  return 0.525;
 }
 
 export const useGameStore = create<GameState>((set) => ({
@@ -33,9 +33,13 @@ export const useGameStore = create<GameState>((set) => ({
   arrowAngle: 0,
   isOnPad: false,
   isWindOn: true,
-  windStrength: Math.round(Math.random() * 7 * 100) / 100,
   windDirection: "right",
-  throwStrength: 6,
+  windStrength: 0.26,
+  throwStrength: 0.425,
+  // windStrength: 0.2,
+  // throwStrength: 0.425,
+  // windStrength: 0.7,
+  // throwStrength: 0.525,
   isThrown: false,
   setArrowAngle: (angle) => set({ arrowAngle: angle }),
   setIsOnPad: (v) => set({ isOnPad: v }),
@@ -50,11 +54,12 @@ export const useGameStore = create<GameState>((set) => ({
     }));
 
     setTimeout(() => {
-      const ws = Math.round(Math.random() * 7 * 100) / 100;
+      const ws = Math.round(Math.random() * 0.7 * 100) / 100;
       const dir = Math.random() > 0.5 ? "left" : "right";
       set({
-        isWindOn: true,
+        // windStrength: 0,
         windStrength: ws,
+        isWindOn: true,
         windDirection: dir,
         throwStrength: computeThrowStrength(ws),
       });
@@ -69,11 +74,12 @@ export const useGameStore = create<GameState>((set) => ({
     }));
 
     setTimeout(() => {
-      const ws = Math.round(Math.random() * 7 * 100) / 100;
+      const ws = Math.round(Math.random() * 0.7 * 100) / 100;
       const dir = Math.random() > 0.5 ? "left" : "right";
       set({
-        isWindOn: true,
+        // windStrength: 0,
         windStrength: ws,
+        isWindOn: true,
         windDirection: dir,
         throwStrength: computeThrowStrength(ws),
       });
