@@ -9,10 +9,12 @@ type GameState = {
   windStrength: number;
   windDirection: string;
   throwStrength: number;
+  isThrown: boolean;
   setArrowAngle: (angle: number) => void;
   setIsOnPad: (v: boolean) => void;
   setIsWindOn: (v: boolean) => void;
   setWindStrength: (n: number) => void;
+  setIsThrown: (v: boolean) => void;
   increment: () => void;
   reset: () => void;
 };
@@ -31,17 +33,20 @@ export const useGameStore = create<GameState>((set) => ({
   arrowAngle: 0,
   isOnPad: false,
   isWindOn: true,
-  windStrength: 3.42,
+  windStrength: Math.round(Math.random() * 7 * 100) / 100,
   windDirection: "right",
   throwStrength: 6,
+  isThrown: false,
   setArrowAngle: (angle) => set({ arrowAngle: angle }),
   setIsOnPad: (v) => set({ isOnPad: v }),
   setIsWindOn: (v) => set({ isWindOn: v }),
   setWindStrength: (n) => set({ windStrength: n }),
+  setIsThrown: (n) => set({ isThrown: n }),
   increment: () => {
     set((s) => ({
       score: s.score + 1,
       resetCount: s.resetCount + 1,
+      isThrown: false,
     }));
 
     setTimeout(() => {
@@ -60,6 +65,7 @@ export const useGameStore = create<GameState>((set) => ({
     set((s) => ({
       score: 0,
       resetCount: s.resetCount + 1,
+      isThrown: false,
     }));
 
     setTimeout(() => {

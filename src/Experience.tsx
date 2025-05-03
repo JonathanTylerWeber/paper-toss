@@ -8,6 +8,7 @@ import WindZone from "./WindZone";
 export default function Experience() {
   const reset = useGameStore.getState().reset;
   const setIsOnPad = useGameStore((s) => s.setIsOnPad);
+  const isThrown = useGameStore((s) => s.isThrown);
 
   return (
     <>
@@ -23,7 +24,7 @@ export default function Experience() {
           rotation-x={Math.PI * -0.5}
           onCollisionEnter={(e) => {
             console.log("💥 Ball hit the floor!", e);
-            reset();
+            if (isThrown) reset();
           }}
         >
           <mesh scale={20}>

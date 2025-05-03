@@ -5,6 +5,7 @@ import { useGameStore } from "./store/game";
 export default function TrashCan() {
   const increment = useGameStore.getState().increment;
   const setIsWindOn = useGameStore((s) => s.setIsWindOn);
+  const isThrown = useGameStore((s) => s.isThrown);
 
   return (
     <group position={[0, 0.5, -3]}>
@@ -40,7 +41,7 @@ export default function TrashCan() {
         sensor // makes it non-solid
         onIntersectionEnter={(payload) => {
           console.log("🔥 sensor hit!", payload);
-          increment();
+          if (isThrown) increment();
         }}
       />
     </group>
