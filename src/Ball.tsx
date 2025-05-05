@@ -33,7 +33,7 @@ export default function Ball() {
       const body = ballRef.current;
       if (!body) return;
       // 1) position & linear velocity
-      body.setTranslation({ x: 0, y: 1.5, z: 5 }, true);
+      body.setTranslation({ x: 0, y: 2, z: 4 }, true);
       body.setLinvel({ x: 0, y: 0, z: 0 }, true);
 
       // 2) rotation & angular velocity
@@ -96,7 +96,7 @@ export default function Ball() {
     <RigidBody
       ref={ballRef}
       colliders="ball"
-      position={[0, 1.5, 5]}
+      position={[0, 2, 4]}
       rotation={[initialEuler.x, initialEuler.y, initialEuler.z]}
     >
       {/* <mesh>

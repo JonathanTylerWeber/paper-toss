@@ -14,7 +14,6 @@ export default function Interface() {
         Score: {score}
       </div>
 
-      {/* 1. Make this a flex-col container, center it at half/half */}
       <div
         className="
           absolute 
@@ -24,7 +23,7 @@ export default function Interface() {
           pointer-events-none z-10
         "
       >
-        {/* 2. Wind info (one flex item) */}
+        {/* 2. Wind info  */}
         <div className="text-center mb-2">
           <div className="text-sm">{(windStrength * 10).toFixed(1)}</div>
           <div className="flex justify-center">
@@ -32,7 +31,7 @@ export default function Interface() {
           </div>
         </div>
 
-        {/* 3. Arrow (second flex item) */}
+        {/* 3. Arrow  */}
         <div
           className="origin-center"
           style={{ transform: `rotate(${rotation}deg)` }}

@@ -8,27 +8,27 @@ export default function TrashCan() {
   const isThrown = useGameStore((s) => s.isThrown);
 
   return (
-    <group position={[0, 0.5, -3]}>
+    <group position={[0, 0.5, -4]}>
       <RigidBody colliders="trimesh" type="fixed">
         <mesh scale={2}>
-          <cylinderGeometry args={[0.5, 0.5, 0.5, 32, 1, true]} />
+          <cylinderGeometry args={[0.3, 0.25, 0.7, 32, 1, true]} />
           <meshBasicMaterial color="orange" side={THREE.DoubleSide} />
         </mesh>
 
         {/* bottom disc */}
-        <mesh
+        {/* <mesh
           rotation-x={-Math.PI / 2}
           position={[0, -0.25, 0]} // half the height down
-          scale={2}
+          scale={1}
         >
           <circleGeometry args={[0.5, 32]} />
           <meshBasicMaterial color="red" side={THREE.DoubleSide} />
-        </mesh>
+        </mesh> */}
       </RigidBody>
 
       {/* turn wind off sensor */}
       <CuboidCollider
-        args={[1, 1, 1]}
+        args={[0.7, 0.7, 0.7]}
         position={[0, 0, 0]}
         sensor
         onIntersectionEnter={() => setIsWindOn(false)}

@@ -18,7 +18,7 @@ interface WindZoneProps {
 }
 
 export default function WindZone({
-  position = [0, 1, -1], // ← start _behind_ the ball so it has to enter
+  position = [0, 1, -2], // ← start _behind_ the ball so it has to enter
   size = [5, 3, 5],
 }: WindZoneProps) {
   const [bodies] = useState<Set<RapierRigidBody>>(() => new Set());
