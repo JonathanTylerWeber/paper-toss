@@ -1,10 +1,10 @@
-import { OrbitControls } from "@react-three/drei";
+// import { OrbitControls } from "@react-three/drei";
 import { CuboidCollider, Physics, RigidBody } from "@react-three/rapier";
 import Ball from "./Ball";
 import TrashCan from "./TrashCan";
 import { useGameStore } from "./store/game";
 import WindZone from "./WindZone";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
 export default function Experience() {
@@ -12,13 +12,29 @@ export default function Experience() {
   const setIsOnPad = useGameStore((s) => s.setIsOnPad);
   const isThrown = useGameStore((s) => s.isThrown);
 
-  const { scene } = useGLTF("/officeCombined.glb");
+  const { scene } = useGLTF("/officeBakedOneObject.glb");
+
+  // Load the texture
+  const bakedTexture = useTexture("/finalBaked.jpg");
+  bakedTexture.flipY = false;
+  bakedTexture.colorSpace = THREE.SRGBColorSpace;
 
   scene.traverse((child) => {
     if (child instanceof THREE.Mesh) {
-      child.material = new THREE.MeshStandardMaterial({ color: "white" });
+      // Apply the texture to each mesh's material
+      child.material = new THREE.MeshBasicMaterial({
+        map: bakedTexture, // Apply the texture to the material's map
+      });
     }
   });
+
+  // const { scene } = useGLTF("/officeBakedOneObject.glb");
+
+  // scene.traverse((child) => {
+  //   if (child instanceof THREE.Mesh) {
+  //     child.material = new THREE.MeshStandardMaterial({ color: "white" });
+  //   }
+  // });
 
   // Scale the office model to match the floor size and rotate 45 degrees
   const scaleFactor = 3.25; // Same scale as the floor
@@ -30,9 +46,11 @@ export default function Experience() {
     <>
       {/* <OrbitControls makeDefault /> */}
 
-      <pointLight position={[0, 5, -5]} intensity={10} />
+      {/* <pointLight position={[0, 5, -5]} intensity={10} /> */}
 
-      <Physics debug>
+      <Physics
+      // debug
+      >
         <Ball />
 
         <WindZone />
