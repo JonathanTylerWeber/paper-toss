@@ -28,7 +28,7 @@ export default function Environment() {
   const scaleFactor = 3.25; // Same scale as the floor
   scene.scale.set(scaleFactor, scaleFactor, scaleFactor); // Scale the office model
   scene.rotation.y = Math.PI / -4; // Rotate 45 degrees (PI/4 radians)
-  scene.position.set(1.5, 0, -19);
+  scene.position.set(1.5, -0.09, -19);
   return (
     <>
       {/* Office Model */}
@@ -51,10 +51,65 @@ export default function Environment() {
         >
           {/* Set visible to false to hide */}
           <planeGeometry />
-          <meshBasicMaterial color="greenyellow" opacity={0} />
+          {/* <meshBasicMaterial color="greenyellow" opacity={0} /> */}
         </mesh>
         <CuboidCollider args={[20, 0.1, 20]} sensor />{" "}
         {/* Make the floor a sensor */}
+      </RigidBody>
+
+      {/* desk/wall colliders */}
+      {/* left desk */}
+      <RigidBody
+        type="fixed"
+        position={[-4, 0, -7]}
+        rotation-y={Math.PI * -0.32}
+      >
+        <CuboidCollider args={[1, 3, 2.6]} />
+      </RigidBody>
+
+      {/* left chair */}
+      <RigidBody
+        type="fixed"
+        position={[-3.5, 0, -5.5]}
+        rotation-y={Math.PI * -0.32}
+      >
+        <CuboidCollider args={[1, 3, 0.8]} />
+      </RigidBody>
+
+      {/* left wall */}
+      <RigidBody
+        type="fixed"
+        position={[-9, 0, -6]}
+        rotation-y={Math.PI * -0.35}
+      >
+        <CuboidCollider args={[1, 3, 2]} />
+      </RigidBody>
+
+      {/* right desk */}
+      <RigidBody
+        type="fixed"
+        position={[6.6, 1, -4.1]}
+        rotation-y={Math.PI * -0.25}
+      >
+        <CuboidCollider args={[2, 3, 2]} />
+      </RigidBody>
+
+      {/* right chair */}
+      <RigidBody
+        type="fixed"
+        position={[5.7, 1, -2]}
+        rotation-y={Math.PI * -0.25}
+      >
+        <CuboidCollider args={[1, 3, 1]} />
+      </RigidBody>
+
+      {/* right wall */}
+      <RigidBody
+        type="fixed"
+        position={[7.5, 1, -9]}
+        rotation-y={Math.PI * -0.25}
+      >
+        <CuboidCollider args={[2, 3, 2]} />
       </RigidBody>
     </>
   );

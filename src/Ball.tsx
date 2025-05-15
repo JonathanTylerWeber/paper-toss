@@ -43,7 +43,7 @@ export default function Ball() {
       body.setAngvel({ x: 0, y: 0, z: 0 }, true);
 
       setAngle(0);
-    }, 700);
+    }, 750);
 
     return () => clearTimeout(timer);
   }, [initialQuatObj, resetCount, setAngle]);
@@ -76,7 +76,7 @@ export default function Ball() {
 
       ballRef.current?.applyImpulse({ x: ix, y: 0.35, z: -iz }, true);
 
-      ballRef.current?.setAngvel({ x: -10, y: 0, z: 0 }, true);
+      ballRef.current?.setAngvel({ x: -15, y: 0, z: 0 }, true);
 
       dragStart.current = null;
       setIsThrown(true);
