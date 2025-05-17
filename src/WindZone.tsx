@@ -26,8 +26,6 @@ export default function WindZone({
   const windStrength = useGameStore((s) => s.windStrength);
   const windDirection = useGameStore((s) => s.windDirection);
 
-  console.log("isWindOn", isWindOn);
-
   const onEnter: IntersectionEnterHandler = useCallback(
     (p: IntersectionEnterPayload) => {
       const b = p.other.rigidBody;

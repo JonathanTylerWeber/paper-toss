@@ -7,6 +7,7 @@ import { ContactShadows } from "@react-three/drei";
 import ThrowPad from "./ThrowPad";
 import Environment from "./Environment";
 import { useEffect, useRef } from "react";
+import { Fan } from "./Fan";
 
 export default function Experience() {
   const bgmRef = useRef<HTMLAudioElement | null>(null);
@@ -50,9 +51,26 @@ export default function Experience() {
 
       <Physics>
         <WindZone />
-        <ContactShadows frames={1} blur={8} width={0.25} scale={12} />
+        <ContactShadows
+          // frames={1} blur={8} width={0.25} scale={12}
+          /* —‑‑‑ keep your tuning props —‑‑‑ */
+          // frames={1}
+
+          // blur={5}
+          // scale={10}
+          // width={0.6}
+          opacity={0.7}
+          scale={30}
+
+          /* —‑‑‑ debugging tweaks —‑‑‑ */
+          // opacity={1}
+          // color="hotpink"
+          /* optional: add a slight y‑offset if it z‑fights */
+          // position={[0, 0.001, 0]}
+        />
 
         <Environment />
+        <Fan />
         <Ball />
         <TrashCan />
         <ThrowPad />
