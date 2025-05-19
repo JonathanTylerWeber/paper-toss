@@ -6,8 +6,6 @@ import { useGameStore } from "./store/game";
 export const Fan = forwardRef<THREE.Group>((_, fwdRef) => {
   const windDirection = useGameStore((s) => s.windDirection);
 
-  console.log(windDirection);
-
   // Load GLB & animation clips
   const { scene, animations } = useGLTF("./fan.glb") as {
     scene: THREE.Group;

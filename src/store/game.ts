@@ -4,6 +4,7 @@ import awhUrl from "/awh.mp3";
 
 type GameState = {
   score: number;
+  bestScore: number;
   resetCount: number;
   arrowAngle: number;
   isOnPad: boolean;
@@ -12,6 +13,8 @@ type GameState = {
   windDirection: string;
   throwStrength: number;
   isThrown: boolean;
+  isMuted: boolean;
+  setIsMuted: (v: boolean) => void;
   setArrowAngle: (angle: number) => void;
   setIsOnPad: (v: boolean) => void;
   setIsWindOn: (v: boolean) => void;
@@ -35,8 +38,15 @@ export const useGameStore = create<GameState>((set, get) => {
   awh.preload = "auto";
   awh.volume = 0.4;
 
+  // read the saved best score (or start at 0)
+  const initialBest =
+    typeof window !== "undefined"
+      ? parseInt(localStorage.getItem("bestScore") ?? "0", 10)
+      : 0;
+
   return {
     score: 0,
+    bestScore: initialBest,
     resetCount: 0,
     arrowAngle: 0,
     isOnPad: false,
@@ -45,7 +55,8 @@ export const useGameStore = create<GameState>((set, get) => {
     windStrength: 0.26,
     throwStrength: 0.425,
     isThrown: false,
-
+    isMuted: false,
+    setIsMuted: (v) => set({ isMuted: v }),
     setArrowAngle: (angle) => set({ arrowAngle: angle }),
     setIsOnPad: (v) => set({ isOnPad: v }),
     setIsWindOn: (v) => set({ isWindOn: v }),
@@ -53,11 +64,20 @@ export const useGameStore = create<GameState>((set, get) => {
     setIsThrown: (v) => set({ isThrown: v }),
 
     increment: () => {
-      set((s) => ({
-        score: s.score + 1,
-        resetCount: s.resetCount + 1,
-        isThrown: false,
-      }));
+      set((s) => {
+        const newScore = s.score + 1;
+        const newBest = Math.max(s.bestScore, newScore);
+        // if we have a new high score, save it
+        if (newBest > s.bestScore) {
+          localStorage.setItem("bestScore", newBest.toString());
+        }
+        return {
+          score: newScore,
+          bestScore: newBest,
+          resetCount: s.resetCount + 1,
+          isThrown: false,
+        };
+      });
 
       setTimeout(() => {
         const ws = Math.round(Math.random() * 0.7 * 100) / 100;
@@ -74,7 +94,7 @@ export const useGameStore = create<GameState>((set, get) => {
     reset: () => {
       const prevScore = get().score;
       // play "awh" if they had any points
-      if (prevScore > 0) {
+      if (prevScore > 0 && !get().isMuted) {
         awh.currentTime = 0;
         awh.play().catch(() => {});
       }

@@ -7,6 +7,7 @@ import { useMemo } from "react";
 
 export default function ThrowPad() {
   const setIsOnPad = useGameStore((s) => s.setIsOnPad);
+  const isMuted = useGameStore((s) => s.isMuted);
 
   const paper = useMemo(() => {
     const a = new Audio(paperURL);
@@ -60,6 +61,7 @@ export default function ThrowPad() {
           onIntersectionEnter={() => setIsOnPad(true)}
           onIntersectionExit={() => {
             setIsOnPad(false);
+            if (isMuted) return;
             paper.currentTime = 0; // start 1s in if you like
             paper.play().catch(() => {});
             setTimeout(() => {

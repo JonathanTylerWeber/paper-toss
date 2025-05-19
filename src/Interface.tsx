@@ -2,7 +2,7 @@ import { ArrowBigUp, ArrowLeft, ArrowRight } from "lucide-react";
 import { useGameStore } from "./store/game";
 
 export default function Interface() {
-  const score = useGameStore((state) => state.score);
+  // const score = useGameStore((state) => state.score);
   const windStrength = useGameStore((s) => s.windStrength);
   const windDirection = useGameStore((s) => s.windDirection);
   const arrowAngle = useGameStore((s) => s.arrowAngle);
@@ -10,24 +10,31 @@ export default function Interface() {
 
   return (
     <>
-      <div className="absolute top-5 left-5 bg-black text-white pointer-events-none z-10 px-5">
+      {/* <div className="absolute top-5 left-5 bg-black text-white pointer-events-none z-10 px-5">
         Score: {score}
-      </div>
+      </div> */}
 
       <div
         className="
           absolute 
           left-1/2 top-1/2 
-          transform -translate-x-1/2 translate-y-40 
+          transform -translate-x-1/2 
+          translate-y-24 md:translate-y-28 lg:translate-y-40 xl:translate-y-32
           flex flex-col items-center 
           pointer-events-none z-10
         "
       >
         {/* 2. Wind info  */}
         <div className="text-center mb-2">
-          <div className="text-sm">{(windStrength * 10).toFixed(1)}</div>
+          <div className="text-base lg:text-xl">
+            {(windStrength * 10).toFixed(1)}
+          </div>
           <div className="flex justify-center">
-            {windDirection === "right" ? <ArrowRight /> : <ArrowLeft />}
+            {windDirection === "right" ? (
+              <ArrowRight className="size-6 lg:size-8" />
+            ) : (
+              <ArrowLeft className="size-6 lg:size-8" />
+            )}
           </div>
         </div>
 
@@ -36,7 +43,7 @@ export default function Interface() {
           className="origin-center"
           style={{ transform: `rotate(${rotation}deg)` }}
         >
-          <ArrowBigUp size={60} />
+          <ArrowBigUp className="size-12 lg:size-16" />
         </div>
       </div>
     </>

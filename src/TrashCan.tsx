@@ -10,6 +10,7 @@ export default function TrashCan() {
   const increment = useGameStore.getState().increment;
   const setIsWindOn = useGameStore((s) => s.setIsWindOn);
   const isThrown = useGameStore((s) => s.isThrown);
+  const isMuted = useGameStore((s) => s.isMuted);
 
   // preload both sounds once
   const clap = useMemo(() => {
@@ -57,7 +58,7 @@ export default function TrashCan() {
           colliders="trimesh"
           type="fixed"
           onCollisionEnter={() => {
-            if (hitPlaying.current) return; // skip if already playing
+            if (hitPlaying.current || isMuted) return; // skip if already playing
             hitPlaying.current = true;
             hit.currentTime = 1; // start 1s in if desired
             hit.play().catch(() => {});
@@ -98,6 +99,7 @@ export default function TrashCan() {
           sensor
           onIntersectionEnter={() => {
             if (isThrown) increment();
+            if (isMuted) return;
             clap.currentTime = 1; // start 1s in if you like
             clap.play().catch(() => {});
             setTimeout(() => {
