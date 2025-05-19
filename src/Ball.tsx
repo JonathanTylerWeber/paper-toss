@@ -32,16 +32,23 @@ export default function Ball() {
     const timer = setTimeout(() => {
       const body = ballRef.current;
       if (!body) return;
-      // 1) position & linear velocity
-      body.setTranslation({ x: 0, y: 2, z: 4 }, true);
-      body.setLinvel({ x: 0, y: 0, z: 0 }, true);
 
-      // 2) rotation & angular velocity
-      //   identity quaternion = no rotation
-      body.setRotation(initialQuatObj, true);
-      //   stop any spinning
-      body.setAngvel({ x: 0, y: 0, z: 0 }, true);
+      // 1. keep the body asleep while we move it
+      const wake = false; // don't wake it yet
 
+      body.setTranslation({ x: 0, y: 2, z: 4 }, wake);
+      body.setRotation(initialQuatObj, wake);
+      body.setLinvel({ x: 0, y: 0, z: 0 }, wake);
+      body.setAngvel({ x: 0, y: 0, z: 0 }, wake);
+
+      // 2. wipe any queued forces/torques
+      body.resetForces(wake);
+      body.resetTorques(wake);
+
+      // optional – if you want it completely inert until the player drags:
+      body.sleep(); // it will auto‑wake on the next impulse
+
+      // reset angle for ui arrow
       setAngle(0);
     }, 750);
 

@@ -51,23 +51,7 @@ export default function Experience() {
 
       <Physics>
         <WindZone />
-        <ContactShadows
-          // frames={1} blur={8} width={0.25} scale={12}
-          /* —‑‑‑ keep your tuning props —‑‑‑ */
-          // frames={1}
-
-          // blur={5}
-          // scale={10}
-          // width={0.6}
-          opacity={0.7}
-          scale={30}
-
-          /* —‑‑‑ debugging tweaks —‑‑‑ */
-          // opacity={1}
-          // color="hotpink"
-          /* optional: add a slight y‑offset if it z‑fights */
-          // position={[0, 0.001, 0]}
-        />
+        <ContactShadows opacity={0.5} scale={25} />
 
         <Environment />
         <Fan />
