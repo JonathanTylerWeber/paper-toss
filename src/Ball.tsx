@@ -36,7 +36,7 @@ export default function Ball() {
       // 1. keep the body asleep while we move it
       const wake = false; // don't wake it yet
 
-      body.setTranslation({ x: 0, y: 2, z: 4 }, wake);
+      body.setTranslation({ x: 0, y: 1.76, z: 4 }, wake);
       body.setRotation(initialQuatObj, wake);
       body.setLinvel({ x: 0, y: 0, z: 0 }, wake);
       body.setAngvel({ x: 0, y: 0, z: 0 }, wake);
@@ -103,7 +103,7 @@ export default function Ball() {
     <RigidBody
       ref={ballRef}
       colliders="ball"
-      position={[0, 2, 4]}
+      position={[0, 1.76, 4]}
       rotation={[initialEuler.x, initialEuler.y, initialEuler.z]}
     >
       {/* <mesh>

@@ -1,5 +1,6 @@
 import { ArrowBigUp, ArrowLeft, ArrowRight } from "lucide-react";
 import { useGameStore } from "./store/game";
+import { Html } from "@react-three/drei";
 
 export default function Interface() {
   // const score = useGameStore((state) => state.score);
@@ -14,38 +15,40 @@ export default function Interface() {
         Score: {score}
       </div> */}
 
-      <div
-        className="
+      <Html>
+        <div
+          className="
           absolute 
           left-1/2 top-1/2 
           transform -translate-x-1/2 
-          translate-y-24 md:translate-y-28 lg:translate-y-40 xl:translate-y-32
+          -translate-y-32
           flex flex-col items-center 
           pointer-events-none z-10
         "
-      >
-        {/* 2. Wind info  */}
-        <div className="text-center mb-2">
-          <div className="text-base lg:text-xl">
-            {(windStrength * 10).toFixed(1)}
-          </div>
-          <div className="flex justify-center">
-            {windDirection === "right" ? (
-              <ArrowRight className="size-6 lg:size-8" />
-            ) : (
-              <ArrowLeft className="size-6 lg:size-8" />
-            )}
-          </div>
-        </div>
-
-        {/* 3. Arrow  */}
-        <div
-          className="origin-center"
-          style={{ transform: `rotate(${rotation}deg)` }}
         >
-          <ArrowBigUp className="size-12 lg:size-16" />
+          {/* 2. Wind info  */}
+          <div className="text-center mb-2">
+            <div className="text-base lg:text-xl">
+              {(windStrength * 10).toFixed(1)}
+            </div>
+            <div className="flex justify-center">
+              {windDirection === "right" ? (
+                <ArrowRight className="size-6" />
+              ) : (
+                <ArrowLeft className="size-6" />
+              )}
+            </div>
+          </div>
+
+          {/* 3. Arrow  */}
+          <div
+            className="origin-center"
+            style={{ transform: `rotate(${rotation}deg)` }}
+          >
+            <ArrowBigUp className="size-12" />
+          </div>
         </div>
-      </div>
+      </Html>
     </>
   );
 }

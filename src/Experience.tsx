@@ -69,8 +69,6 @@ export default function Experience() {
     <>
       {/* <OrbitControls makeDefault /> */}
 
-      <pointLight intensity={100} />
-
       <Physics>
         <WindZone />
         <ContactShadows opacity={0.5} scale={25} />

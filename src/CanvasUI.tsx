@@ -11,7 +11,7 @@ export default function CanvasUI() {
   return (
     <>
       {/* score */}
-      <Html position={[-4.55, 4.45, -4]}>
+      <Html position={[-4.5, 4.5, -4]}>
         <div
           className="origin-left [perspective:800px] [transform:rotateY(-18deg)_rotateX(-10deg)]
                   text-[42px] font-semibold font-mono flex flex-col "
@@ -30,7 +30,7 @@ export default function CanvasUI() {
       <Html position={[1.32, 4.1, -4]}>
         <div
           className="origin-left [perspective:800px] [transform:rotateY(25deg)_rotateX(-6deg)]
-                      text-[24px] font-semibold font-mono flex flex-col gap-1"
+                      text-[20px] font-semibold font-mono flex flex-col gap-1"
           onPointerDown={(e) => e.stopPropagation()}
           onPointerUp={(e) => e.stopPropagation()}
         >
@@ -43,7 +43,7 @@ export default function CanvasUI() {
             className="inline-flex items-center justify-center hover:text-gray-700 gap-2"
           >
             {isMuted ? <VolumeX /> : <Volume2 />}
-            <span>{isMuted ? "off" : "on"}</span>
+            <span>{isMuted ? "Unmute" : "Mute"}</span>
           </button>
         </div>
       </Html>
