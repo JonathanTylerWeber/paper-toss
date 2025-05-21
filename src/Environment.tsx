@@ -51,7 +51,6 @@ export default function Environment() {
         >
           {/* Set visible to false to hide */}
           <planeGeometry />
-          {/* <meshBasicMaterial color="greenyellow" opacity={0} /> */}
         </mesh>
         <CuboidCollider args={[20, 0.1, 20]} sensor />{" "}
         {/* Make the floor a sensor */}

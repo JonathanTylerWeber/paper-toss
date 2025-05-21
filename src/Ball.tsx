@@ -106,10 +106,6 @@ export default function Ball() {
       position={[0, 1.76, 4]}
       rotation={[initialEuler.x, initialEuler.y, initialEuler.z]}
     >
-      {/* <mesh>
-        <boxGeometry />
-        <meshBasicMaterial color="mediumpurple" />
-      </mesh> */}
       <mesh scale={5} geometry={ico.geometry}>
         <meshBasicMaterial map={bakedTexture} />
       </mesh>

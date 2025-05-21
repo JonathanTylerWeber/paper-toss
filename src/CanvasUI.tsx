@@ -1,40 +1,65 @@
 import { Html } from "@react-three/drei";
 import { useGameStore } from "./store/game";
 import { Volume2, VolumeX } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { purgeAssets } from "./purgeAssets";
 
 export default function CanvasUI() {
-  const score = useGameStore((state) => state.score);
-  const bestScore = useGameStore((state) => state.bestScore);
   const isMuted = useGameStore((s) => s.isMuted);
   const setIsMuted = useGameStore((s) => s.setIsMuted);
+  const setPhase = useGameStore((s) => s.setPhase);
+
+  // 1. refs to the DOM elements we want to mutate
+  const scoreRef = useRef<HTMLSpanElement>(null);
+  const bestRef = useRef<HTMLSpanElement>(null);
+
+  // 2. subscribe outside React render cycle
+  useEffect(() => {
+    const unsub = useGameStore.subscribe((state) => {
+      if (scoreRef.current) scoreRef.current.textContent = String(state.score);
+      if (bestRef.current)
+        bestRef.current.textContent = String(state.bestScore);
+    });
+    return unsub; // clean up
+  }, []);
 
   return (
     <>
       {/* score */}
-      <Html position={[-4.5, 4.5, -4]}>
-        <div
-          className="origin-left [perspective:800px] [transform:rotateY(-18deg)_rotateX(-10deg)]
-                  text-[42px] font-semibold font-mono flex flex-col "
-          onPointerDown={(e) => e.stopPropagation()}
-          onPointerUp={(e) => e.stopPropagation()}
-        >
-          <p className="flex gap-1">
-            Score:<span>{score}</span>
-          </p>
-          <p className="flex gap-1">
-            Best:<span>{bestScore}</span>
-          </p>
+      <Html position={[-4.4, 4.45, -4]}>
+        <div className="[perspective:300px] origin-left">
+          <div
+            className="[transform:rotateY(16deg)_rotateX(4deg)_rotateZ(0deg)]
+                  text-[36px] font-semibold font-mono flex flex-col "
+            onPointerDown={(e) => e.stopPropagation()}
+            onPointerUp={(e) => e.stopPropagation()}
+          >
+            <p className="flex gap-1">
+              Score:
+              <span ref={scoreRef} />
+            </p>
+            <p className="flex gap-1">
+              Best:
+              <span ref={bestRef} />
+            </p>
+          </div>
         </div>
       </Html>
 
-      <Html position={[1.32, 4.1, -4]}>
+      <Html position={[1.28, 4.15, -4]}>
         <div
-          className="origin-left [perspective:800px] [transform:rotateY(25deg)_rotateX(-6deg)]
+          className="[transform:rotateY(25deg)_rotateX(-6deg)_rotateZ(-0.5deg)]
                       text-[20px] font-semibold font-mono flex flex-col gap-1"
           onPointerDown={(e) => e.stopPropagation()}
           onPointerUp={(e) => e.stopPropagation()}
         >
-          <button className="inline-flex items-center hover:text-gray-700">
+          <button
+            onClick={() => {
+              purgeAssets(); // 👈 throw away meshes, mats, textures
+              setPhase("start"); // back to the splash screen
+            }}
+            className="inline-flex items-center hover:text-gray-700"
+          >
             Main&nbsp;Menu
           </button>
 

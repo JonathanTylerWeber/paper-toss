@@ -1,4 +1,3 @@
-// import { OrbitControls } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
 import Ball from "./Ball";
 import TrashCan from "./TrashCan";
@@ -6,32 +5,34 @@ import WindZone from "./WindZone";
 import { ContactShadows } from "@react-three/drei";
 import ThrowPad from "./ThrowPad";
 import Environment from "./Environment";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo } from "react";
 import { Fan } from "./Fan";
 import CanvasUI from "./CanvasUI";
 import { useGameStore } from "./store/game";
 
 export default function Experience() {
-  const bgmRef = useRef<HTMLAudioElement | null>(null);
-  const bgm2Ref = useRef<HTMLAudioElement | null>(null);
   const isMuted = useGameStore((s) => s.isMuted);
 
-  // 1) Create & configure the audio elements on mount
+  // 1) Memoize your audio instances so they’re created exactly once
+  const bgm = useMemo(() => {
+    const a = new Audio("/officeNoise.mp3");
+    a.loop = true;
+    a.volume = 0.3;
+    a.preload = "auto";
+    return a;
+  }, []);
+  const bgm2 = useMemo(() => {
+    const a = new Audio("/fan.mp3");
+    a.loop = true;
+    a.volume = 0.6;
+    a.preload = "auto";
+    return a;
+  }, []);
+
+  // 2) Unlock (play) on first interaction
   useEffect(() => {
-    const bgm = new Audio("/officeNoise.mp3");
-    const bgm2 = new Audio("/fan.mp3");
-    bgm.loop = bgm2.loop = true;
-    bgm.volume = 0.3;
-    bgm2.volume = 0.6;
-    bgm.preload = bgm2.preload = "auto";
-
-    bgmRef.current = bgm;
-    bgm2Ref.current = bgm2;
-
-    // 2) Unlock on first user interaction
     const unlock = () => {
-      const { isMuted } = useGameStore.getState(); // read fresh value
-      if (!isMuted) {
+      if (!useGameStore.getState().isMuted) {
         bgm.play().catch(() => {});
         bgm2.play().catch(() => {});
       }
@@ -39,36 +40,26 @@ export default function Experience() {
     };
     window.addEventListener("pointerdown", unlock);
 
-    // 3) Clean up on unmount
     return () => {
       window.removeEventListener("pointerdown", unlock);
       bgm.pause();
       bgm2.pause();
-      bgm.currentTime = 0;
-      bgm2.currentTime = 0;
     };
-  }, []);
+  }, [bgm, bgm2]);
 
-  // 4) Watch for mute toggles and pause/resume accordingly
+  // 3) Pause/resume when the muted flag changes
   useEffect(() => {
-    const bgm = bgmRef.current;
-    const bgm2 = bgm2Ref.current;
-    if (!bgm || !bgm2) return;
-
     if (isMuted) {
       bgm.pause();
       bgm2.pause();
     } else {
-      // if they've already unlocked, this will resume
       bgm.play().catch(() => {});
       bgm2.play().catch(() => {});
     }
-  }, [isMuted]);
+  }, [isMuted, bgm, bgm2]);
 
   return (
     <>
-      {/* <OrbitControls makeDefault /> */}
-
       <Physics>
         <WindZone />
         <ContactShadows opacity={0.5} scale={25} />

@@ -2,6 +2,8 @@
 import { create } from "zustand";
 import awhUrl from "/awh.mp3";
 
+type GamePhase = "start" | "game";
+
 type GameState = {
   score: number;
   bestScore: number;
@@ -14,6 +16,8 @@ type GameState = {
   throwStrength: number;
   isThrown: boolean;
   isMuted: boolean;
+  phase: GamePhase;
+  setPhase: (p: GamePhase) => void;
   setIsMuted: (v: boolean) => void;
   setArrowAngle: (angle: number) => void;
   setIsOnPad: (v: boolean) => void;
@@ -56,6 +60,8 @@ export const useGameStore = create<GameState>((set, get) => {
     throwStrength: 0.425,
     isThrown: false,
     isMuted: false,
+    phase: "start",
+    setPhase: (p) => set({ phase: p }),
     setIsMuted: (v) => set({ isMuted: v }),
     setArrowAngle: (angle) => set({ arrowAngle: angle }),
     setIsOnPad: (v) => set({ isOnPad: v }),

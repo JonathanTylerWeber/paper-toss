@@ -1,23 +1,25 @@
 import { Canvas } from "@react-three/fiber";
-import Experience from "./Experience";
-import Interface from "./Interface";
 import StartScreen from "./StartScreen";
 import LoadingScreen from "./LoadingScreen";
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import { Html, useProgress } from "@react-three/drei";
+import React from "react";
+import { useGameStore } from "./store/game";
+
+const Experience = React.lazy(() => import("./Experience"));
+const Interface = React.lazy(() => import("./Interface"));
 
 function App() {
-  const [started, setStarted] = useState(false);
+  const phase = useGameStore((s) => s.phase);
+  const setPhase = useGameStore((s) => s.setPhase);
 
   // Drei hook that tells you how many suspense boundaries are still unresolved
   const { active } = useProgress();
 
-  // We’re “loading” as soon as we’ve pressed Start, and while `active > 0`
-  const isLoading = started && active;
+  const isLoading = phase === "game" && active;
 
-  if (!started) {
-    return <StartScreen onStart={() => setStarted(true)} />;
-  }
+  if (phase === "start")
+    return <StartScreen onStart={() => setPhase("game")} />;
 
   return (
     <>
@@ -29,6 +31,8 @@ function App() {
           position: [0, 3.75, 7.75],
           rotation: [-0.25, 0, 0],
         }}
+        style={{ touchAction: "none" }}
+        dpr={[1, 1.5]} // cap pixel‑ratio for 4K/retina
       >
         {/* 1) We still lazy-load Experience via Suspense */}
         <Suspense
