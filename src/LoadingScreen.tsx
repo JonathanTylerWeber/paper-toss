@@ -10,6 +10,7 @@ export default function LoadingScreen() {
         flex
         items-center
         justify-center
+        z-40
       "
     >
       <div className="flex flex-col items-center space-y-6">

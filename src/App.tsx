@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { Html, useProgress } from "@react-three/drei";
 import React from "react";
 import { useGameStore } from "./store/game";
+import { TieredCamera } from "./TieredCamera";
 
 const Experience = React.lazy(() => import("./Experience"));
 const Interface = React.lazy(() => import("./Interface"));
@@ -23,6 +24,12 @@ function App() {
 
   return (
     <>
+      {!isLoading && (
+        <Suspense fallback={<LoadingScreen />}>
+          <Interface />
+        </Suspense>
+      )}
+
       <Canvas
         camera={{
           fov: 40,
@@ -32,23 +39,24 @@ function App() {
           rotation: [-0.25, 0, 0],
         }}
         style={{ touchAction: "none" }}
-        dpr={[1, 1.5]} // cap pixel‑ratio for 4K/retina
+        dpr={[1, 1.5]} // cap pixel‑ratio
       >
-        {/* 1) We still lazy-load Experience via Suspense */}
+        <TieredCamera />
+
+        {/* 1) lazy-load Experience via Suspense */}
         <Suspense
           fallback={
-            <Html fullscreen position={[0, 1.7, 0]}>
+            <Html fullscreen position={[0, 1.78, 0]}>
               <LoadingScreen />
             </Html>
           }
         >
-          <Interface />
           <Experience />
         </Suspense>
 
         {/* 2) Overlay an HTML loading screen until all Suspense children resolve */}
         {isLoading && (
-          <Html fullscreen position={[0, 1.7, 0]}>
+          <Html fullscreen position={[0, 1.78, 0]}>
             <LoadingScreen />
           </Html>
         )}
