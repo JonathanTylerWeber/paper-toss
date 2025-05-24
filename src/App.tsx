@@ -6,9 +6,16 @@ import { Html, useProgress } from "@react-three/drei";
 import React from "react";
 import { useGameStore } from "./store/game";
 import { TieredCamera } from "./TieredCamera";
+import { useViewportWidth } from "./useViewportWidth";
 
 const Experience = React.lazy(() => import("./Experience"));
 const Interface = React.lazy(() => import("./Interface"));
+
+function computeYOffset(w: number) {
+  if (w <= 640) return 2.5; // phones
+  if (w <= 1024) return 2.8; // tablets
+  return 1.78; // desktop (your old value)
+}
 
 function App() {
   const phase = useGameStore((s) => s.phase);
@@ -18,6 +25,20 @@ function App() {
   const { active } = useProgress();
 
   const isLoading = phase === "game" && active;
+
+  // comput offset for loader
+  const width = useViewportWidth();
+  const y = computeYOffset(width);
+
+  const mq = window.matchMedia("(orientation: portrait)");
+
+  mq.addEventListener("change", (e) => {
+    if (e.matches) {
+      console.log("Now portrait");
+    } else {
+      console.log("Now landscape");
+    }
+  });
 
   if (phase === "start")
     return <StartScreen onStart={() => setPhase("game")} />;
@@ -46,7 +67,7 @@ function App() {
         {/* 1) lazy-load Experience via Suspense */}
         <Suspense
           fallback={
-            <Html fullscreen position={[0, 1.78, 0]}>
+            <Html fullscreen position={[0, y, 0]} className="top-0 left-0">
               <LoadingScreen />
             </Html>
           }
@@ -55,11 +76,11 @@ function App() {
         </Suspense>
 
         {/* 2) Overlay an HTML loading screen until all Suspense children resolve */}
-        {isLoading && (
-          <Html fullscreen position={[0, 1.78, 0]}>
+        {/* {isLoading && (
+          <Html fullscreen position={[0, y, 0]} className="top-0 left-0">
             <LoadingScreen />
           </Html>
-        )}
+        )} */}
       </Canvas>
     </>
   );

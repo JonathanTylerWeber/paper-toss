@@ -23,11 +23,11 @@ export default function StartScreen({ onStart }: Props) {
         justify-center
       "
     >
-      <div className="bg-black/50 rounded-2xl p-10">
-        <h1 className="text-white text-8xl font-mono font-semibold">
+      <div className="bg-black/50 rounded-2xl p-12 xl:p-10">
+        <h1 className="text-white text-4xl md:text-6xl xl:text-8xl text-center font-mono font-semibold">
           Paper Toss
         </h1>
-        <div className="flex gap-20 mt-14 justify-center">
+        <div className="flex md:flex-row flex-col gap-20 mt-14 justify-center">
           <button
             onClick={onStart}
             className="bg-white text-black font-mono text-4xl p-3 px-6 rounded-xl hover:bg-white/70"
@@ -40,7 +40,7 @@ export default function StartScreen({ onStart }: Props) {
         </div>
         <div className=" text-white font-mono text-4xl p-3 flex flex-col items-center mt-14 gap-14">
           <p>
-            Personal Best: <span>{bestScore}</span>
+            Best: <span>{bestScore}</span>
           </p>
           <button
             onClick={() => setIsMuted(!isMuted)}

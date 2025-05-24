@@ -39,10 +39,10 @@ export default function Interface() {
   return (
     <>
       {isMobile && (
-        <div className="absolute top-0 w-full h-[32%] md:h-1/4 bg-slate-700 text-white font-mono pt-10 z-20">
-          <div className="flex flex-col gap-12 items-center text-2xl md:gap-6">
+        <div className="absolute top-0 w-full h-[32%] md:h-1/4 bg-slate-700 text-white font-mono pt-10">
+          <div className="flex flex-col gap-12 items-center text-2xl sm:gap-6">
             <div
-              className="font-semibold font-mono flex justify-between w-full px-6 md:px-40"
+              className="font-semibold font-mono flex justify-between w-full px-6 md:px-40 lg:text-3xl"
               onPointerDown={(e) => e.stopPropagation()}
               onPointerUp={(e) => e.stopPropagation()}
             >
@@ -53,21 +53,21 @@ export default function Interface() {
                 }}
                 onPointerDown={(e) => e.stopPropagation()}
                 onPointerUp={(e) => e.stopPropagation()}
-                className="inline-flex items-center z-20 bg-slate-600 p-2 px-3 rounded-lg"
+                className="inline-flex items-center z-20 bg-slate-600 p-2 px-3 rounded-lg lg:p-4 lg:px-5"
               >
                 Main&nbsp;Menu
               </button>
 
               <button
                 onClick={() => setIsMuted(!isMuted)}
-                className="inline-flex items-center justify-center z-20 gap-2 bg-slate-600 p-2 px-3 rounded-lg"
+                className="inline-flex items-center justify-center z-20 gap-2 bg-slate-600 p-2 px-3 rounded-lg lg:p-4 lg:px-5"
               >
                 {isMuted ? <VolumeX /> : <Volume2 />}
                 <span>{isMuted ? "Unmute" : "Mute"}</span>
               </button>
             </div>
-            <div className="flex flex-col items-center">
-              <p className="flex gap-1 mb-4">
+            <div className="flex flex-col sm:flex-row xl:flex-col items-center lg:text-3xl justify-center gap-0 sm:gap-12 xl:gap-0">
+              <p className="flex gap-1 mb-4 sm:mb-0 xl:mb-4">
                 Score:
                 <span ref={scoreRef} />
               </p>
