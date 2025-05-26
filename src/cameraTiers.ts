@@ -4,8 +4,32 @@ export type CameraPreset = {
   pos: [number, number, number];
 };
 
-export const CAMERA_TIERS: { maxWidth: number; preset: CameraPreset }[] = [
-  { maxWidth: 640, preset: { fov: 95, pos: [0, 4, 6] } }, // phones
-  { maxWidth: 1024, preset: { fov: 60, pos: [0, 5, 8.5] } }, // small tablets
-  { maxWidth: Infinity, preset: { fov: 40, pos: [0, 3.75, 7.75] } }, // everything else
+export type CameraTier = {
+  /** max viewport width in px that this tier covers */
+  maxWidth: number;
+  /** "portrait" | "landscape" — omit to match either orientation */
+  orientation?: "portrait" | "landscape";
+  preset: CameraPreset;
+};
+
+export const CAMERA_TIERS: CameraTier[] = [
+  {
+    maxWidth: 640,
+    orientation: "portrait",
+    preset: { fov: 95, pos: [0, 4.0, 6] },
+  },
+  {
+    maxWidth: 1024,
+    orientation: "portrait",
+    preset: { fov: 60, pos: [0, 5.0, 8.5] },
+  },
+  {
+    maxWidth: 1024,
+    orientation: "landscape",
+    preset: { fov: 35, pos: [0, 4.0, 8.5] },
+  },
+  {
+    maxWidth: Infinity,
+    preset: { fov: 40, pos: [0, 3.75, 7.75] },
+  },
 ];

@@ -3,7 +3,7 @@ import { useGameStore } from "./store/game";
 import { Volume2, VolumeX } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { purgeAssets } from "./purgeAssets";
-import { useIsMobile } from "./useIsMobile";
+import { useViewport } from "./useViewportWidth";
 
 export default function CanvasUI() {
   const isMuted = useGameStore((s) => s.isMuted);
@@ -24,9 +24,9 @@ export default function CanvasUI() {
     return unsub; // clean up
   }, []);
 
-  const isMobile = useIsMobile();
+  const { width } = useViewport();
 
-  if (isMobile) {
+  if (width <= 1024) {
     return null;
   }
 

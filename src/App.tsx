@@ -6,15 +6,16 @@ import { Html, useProgress } from "@react-three/drei";
 import React from "react";
 import { useGameStore } from "./store/game";
 import { TieredCamera } from "./TieredCamera";
-import { useViewportWidth } from "./useViewportWidth";
+import { useViewport } from "./useViewportWidth";
 
 const Experience = React.lazy(() => import("./Experience"));
 const Interface = React.lazy(() => import("./Interface"));
 
-function computeYOffset(w: number) {
-  if (w <= 640) return 2.5; // phones
-  if (w <= 1024) return 2.8; // tablets
-  return 1.78; // desktop (your old value)
+function computeYOffset(w: number, orient: string) {
+  if (w <= 640) return 2.5;
+  if (w <= 1024 && orient === "landscape") return 1.8;
+  if (w <= 1024) return 2.8;
+  return 1.78;
 }
 
 function App() {
@@ -26,9 +27,9 @@ function App() {
 
   const isLoading = phase === "game" && active;
 
-  // comput offset for loader
-  const width = useViewportWidth();
-  const y = computeYOffset(width);
+  // compute offset for loader
+  const { width, orient } = useViewport();
+  const y = computeYOffset(width, orient);
 
   const mq = window.matchMedia("(orientation: portrait)");
 
