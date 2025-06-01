@@ -1,9 +1,9 @@
 import { Html } from "@react-three/drei";
-import { useGameStore } from "./store/game";
+import { useGameStore } from "../store/game";
 import { Volume2, VolumeX } from "lucide-react";
 import { useEffect, useRef } from "react";
-import { purgeAssets } from "./purgeAssets";
-import { useViewport } from "./useViewportWidth";
+import { purgeAssets } from "../utils/purgeAssets";
+import { useViewport } from "../hooks/useViewport";
 
 export default function CanvasUI() {
   const isMuted = useGameStore((s) => s.isMuted);

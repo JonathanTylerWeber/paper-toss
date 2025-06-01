@@ -4,7 +4,7 @@ export default function LoadingScreen() {
       className="
         w-full
         h-full
-        bg-[url('/paperTexture.jpg')]
+        bg-[url('/images/paperTexture.jpg')]
         bg-cover
         bg-center
         flex
@@ -14,7 +14,7 @@ export default function LoadingScreen() {
     >
       <div className="flex flex-col items-center space-y-6">
         <img
-          src="/crumpledPaper.svg"
+          src="/images/crumpledPaper.svg"
           alt="Crumpled Paper"
           className="size-60 animate-bounce z-40"
         />

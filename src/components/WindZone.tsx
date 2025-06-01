@@ -9,7 +9,7 @@ import {
 } from "@react-three/rapier";
 import { useState, useCallback } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGameStore } from "./store/game";
+import { useGameStore } from "../store/game";
 
 interface WindZoneProps {
   position?: [number, number, number];

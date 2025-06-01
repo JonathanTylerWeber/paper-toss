@@ -1,9 +1,9 @@
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import * as THREE from "three";
-import { useGameStore } from "./store/game";
+import { useGameStore } from "../store/game";
 import { useGLTF, useTexture } from "@react-three/drei";
-import clapUrl from "/clapping.mp3";
-import metalHitUrl from "/metalHit.mp3";
+import clapUrl from "/sounds/clapping.mp3";
+import metalHitUrl from "/sounds/metalHit.mp3";
 import { useMemo, useRef } from "react";
 
 export default function TrashCan() {
@@ -29,10 +29,10 @@ export default function TrashCan() {
   // guard so hit only retriggers once per play
   const hitPlaying = useRef(false);
 
-  const { scene } = useGLTF("/trashCan3.glb");
+  const { scene } = useGLTF("/models/trashCan3.glb");
 
   // Load the texture
-  const bakedTexture = useTexture("/trashCan3.jpg");
+  const bakedTexture = useTexture("/textures/trashCan3.jpg");
   bakedTexture.flipY = false;
   bakedTexture.colorSpace = THREE.SRGBColorSpace;
 

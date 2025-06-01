@@ -1,6 +1,6 @@
 import { Volume2, VolumeX } from "lucide-react";
-import { useGameStore } from "./store/game";
-import { useViewport } from "./useViewportWidth";
+import { useGameStore } from "../store/game";
+import { useViewport } from "../hooks/useViewport";
 
 interface Props {
   onStart: () => void;
@@ -20,7 +20,7 @@ export default function StartScreen({ onStart }: Props) {
           className="
         w-screen 
         h-screen 
-        bg-[url('/blurredBg.jpg')] 
+        bg-[url('/images/blurredBg.jpg')] 
         bg-cover 
         bg-center 
         flex 

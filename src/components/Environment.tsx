@@ -1,5 +1,5 @@
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
-import { useGameStore } from "./store/game";
+import { useGameStore } from "../store/game";
 import { useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -8,10 +8,10 @@ export default function Environment() {
 
   const isThrown = useGameStore((s) => s.isThrown);
 
-  const { scene } = useGLTF("/bakedChanges3.glb");
+  const { scene } = useGLTF("/models/bakedChanges3.glb");
 
   // Load the texture
-  const bakedTexture = useTexture("/bakedChanges3.jpg");
+  const bakedTexture = useTexture("/textures/bakedChanges3.jpg");
   bakedTexture.flipY = false;
   bakedTexture.colorSpace = THREE.SRGBColorSpace;
 

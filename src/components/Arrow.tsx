@@ -1,5 +1,5 @@
 import { ArrowBigUp } from "lucide-react";
-import { useGameStore } from "./store/game";
+import { useGameStore } from "../store/game";
 
 export default function Arrow() {
   const arrowAngle = useGameStore((s) => s.arrowAngle);

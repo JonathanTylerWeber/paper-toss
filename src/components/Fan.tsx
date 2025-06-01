@@ -1,19 +1,19 @@
 import { forwardRef, useEffect, useRef } from "react";
 import { useGLTF, useTexture, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
-import { useGameStore } from "./store/game";
+import { useGameStore } from "../store/game";
 
 export const Fan = forwardRef<THREE.Group>((_, fwdRef) => {
   const windDirection = useGameStore((s) => s.windDirection);
 
   // Load GLB & animation clips
-  const { scene, animations } = useGLTF("./fan.glb") as {
+  const { scene, animations } = useGLTF("/models/fan.glb") as {
     scene: THREE.Group;
     animations: THREE.AnimationClip[];
   };
 
   // Load baked texture
-  const baked = useTexture("./fan.jpg");
+  const baked = useTexture("/textures/fan.jpg");
   baked.flipY = false;
   baked.colorSpace = THREE.SRGBColorSpace;
 

@@ -2,8 +2,8 @@
 import { useThree } from "@react-three/fiber";
 import { useLayoutEffect } from "react";
 import * as THREE from "three";
-import { CAMERA_TIERS } from "./cameraTiers";
-import { useViewport } from "./useViewportWidth";
+import { useViewport } from "./useViewport";
+import { CAMERA_TIERS } from "../utils/cameraTiers";
 
 export default function useTieredCamera() {
   const { camera } = useThree();

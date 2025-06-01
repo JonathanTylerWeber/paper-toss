@@ -1,6 +1,6 @@
 import { RigidBody, RapierRigidBody } from "@react-three/rapier";
 import { useRef, useEffect, useMemo } from "react";
-import { useGameStore } from "./store/game";
+import { useGameStore } from "../store/game";
 import { useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -12,9 +12,9 @@ export default function Ball() {
   const setIsThrown = useGameStore((s) => s.setIsThrown);
   const setAngle = useGameStore((s) => s.setArrowAngle);
 
-  const { nodes } = useGLTF("./crumpledPaper.glb");
+  const { nodes } = useGLTF("/models/crumpledPaper.glb");
   const ico = nodes.Icosphere as THREE.Mesh;
-  const bakedTexture = useTexture("./paperBaked.jpg");
+  const bakedTexture = useTexture("/textures/paperBaked.jpg");
   bakedTexture.flipY = false;
 
   const initialEuler = useMemo(

@@ -5,10 +5,10 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import { useGameStore } from "./store/game";
+import { useGameStore } from "../store/game";
 import { useEffect, useRef } from "react";
-import { purgeAssets } from "./purgeAssets";
-import { useViewport } from "./useViewportWidth";
+import { purgeAssets } from "../utils/purgeAssets";
+import { useViewport } from "../hooks/useViewport";
 
 export default function Interface() {
   const windStrength = useGameStore((s) => s.windStrength);

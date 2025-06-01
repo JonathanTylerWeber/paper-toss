@@ -1,8 +1,8 @@
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
-import { useGameStore } from "./store/game";
+import { useGameStore } from "../store/game";
 import { useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import paperURL from "/paperRustle.wav";
+import paperURL from "/sounds/paperRustle.wav";
 import { useMemo } from "react";
 
 export default function ThrowPad() {
@@ -16,10 +16,10 @@ export default function ThrowPad() {
     return a;
   }, []);
 
-  const { scene } = useGLTF("/desktop.glb");
+  const { scene } = useGLTF("/models/desktop.glb");
 
   // Load the texture
-  const bakedTexture = useTexture("/desktop.jpg");
+  const bakedTexture = useTexture("/textures/desktop.jpg");
   bakedTexture.flipY = false;
   bakedTexture.colorSpace = THREE.SRGBColorSpace;
 

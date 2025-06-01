@@ -1,6 +1,6 @@
 // store/game.ts
 import { create } from "zustand";
-import awhUrl from "/awh.mp3";
+import awhUrl from "/sounds/awh.mp3";
 
 type GamePhase = "start" | "game";
 

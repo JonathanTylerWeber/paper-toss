@@ -1,15 +1,14 @@
 import { Canvas } from "@react-three/fiber";
-import StartScreen from "./StartScreen";
-import LoadingScreen from "./LoadingScreen";
+import LoadingScreen from "./components/LoadingScreen";
 import { Suspense } from "react";
 import { Html, useProgress } from "@react-three/drei";
 import React from "react";
 import { useGameStore } from "./store/game";
-import { TieredCamera } from "./TieredCamera";
-import { useViewport } from "./useViewportWidth";
+import { useViewport } from "./hooks/useViewport";
+import StartScreen from "./components/StartScreen";
 
 const Experience = React.lazy(() => import("./Experience"));
-const Interface = React.lazy(() => import("./Interface"));
+const Interface = React.lazy(() => import("./components/Interface"));
 
 function computeYOffset(w: number, orient: string) {
   if (w <= 640) return 2.5;
@@ -30,16 +29,6 @@ function App() {
   // compute offset for loader
   const { width, orient } = useViewport();
   const y = computeYOffset(width, orient);
-
-  const mq = window.matchMedia("(orientation: portrait)");
-
-  mq.addEventListener("change", (e) => {
-    if (e.matches) {
-      console.log("Now portrait");
-    } else {
-      console.log("Now landscape");
-    }
-  });
 
   if (phase === "start")
     return <StartScreen onStart={() => setPhase("game")} />;
@@ -63,8 +52,6 @@ function App() {
         style={{ touchAction: "none" }}
         dpr={[1, 1.5]} // cap pixel‑ratio
       >
-        <TieredCamera />
-
         {/* 1) lazy-load Experience via Suspense */}
         <Suspense
           fallback={
