@@ -6,10 +6,10 @@ export function purgeAssets() {
   Cache.clear(); // textures & other loaders
 
   [
-    "/desktop.glb",
-    "/trashCan3.glb",
-    "/fan.glb",
-    "/crumpledPaper.glb",
-    "/bakedChanges3.glb",
+    "/models/desktop.glb",
+    "/models/trashCan3.glb",
+    "/models/fan.glb",
+    "/models/crumpledPaper.glb",
+    "/models/bakedChanges3.glb",
   ].forEach(useGLTF.clear); // clear one by one (type‑safe)
 }

@@ -74,4 +74,4 @@ export const Fan = forwardRef<THREE.Group>((_, fwdRef) => {
 });
 
 // Preload GLB for snappy load
-useGLTF.preload("./fan.glb");
+useGLTF.preload("/models/fan.glb");
