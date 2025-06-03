@@ -11,7 +11,7 @@ const Experience = React.lazy(() => import("./Experience"));
 const Interface = React.lazy(() => import("./components/Interface"));
 
 function computeYOffset(w: number, orient: string) {
-  if (w <= 640) return 2.5;
+  if (w <= 640) return 1.8;
   if (w <= 1024 && orient === "landscape") return 1.8;
   if (w <= 1024) return 2.8;
   return 1.78;
@@ -52,7 +52,6 @@ function App() {
         style={{ touchAction: "none" }}
         dpr={[1, 1.5]} // cap pixel‑ratio
       >
-        {/* 1) lazy-load Experience via Suspense */}
         <Suspense
           fallback={
             <Html fullscreen position={[0, y, 0]} className="top-0 left-0">
@@ -62,13 +61,6 @@ function App() {
         >
           <Experience />
         </Suspense>
-
-        {/* 2) Overlay an HTML loading screen until all Suspense children resolve */}
-        {/* {isLoading && (
-          <Html fullscreen position={[0, y, 0]} className="top-0 left-0">
-            <LoadingScreen />
-          </Html>
-        )} */}
       </Canvas>
     </>
   );

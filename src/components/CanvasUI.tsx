@@ -37,7 +37,7 @@ export default function CanvasUI() {
       <Html position={[-4.4, 4.45, -4]}>
         <div className="[perspective:300px] origin-left">
           <div
-            className="[transform:rotateY(16deg)_rotateX(4deg)_rotateZ(0deg)]
+            className="[transform:rotateY(10deg)_rotateX(4deg)_rotateZ(0deg)]
                   text-[4.4vh] font-semibold font-mono flex flex-col "
             onPointerDown={(e) => e.stopPropagation()}
             onPointerUp={(e) => e.stopPropagation()}

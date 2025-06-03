@@ -11,7 +11,7 @@ export default function StartScreen({ onStart }: Props) {
   const isMuted = useGameStore((s) => s.isMuted);
   const setIsMuted = useGameStore((s) => s.setIsMuted);
 
-  const { width, orient } = useViewport();
+  const { width } = useViewport();
 
   return (
     <>
@@ -59,12 +59,12 @@ export default function StartScreen({ onStart }: Props) {
         </div>
       )}
 
-      {width <= 1024 && orient == "landscape" && (
+      {width <= 1024 && (
         <div
           className="
         w-screen 
         h-screen 
-        bg-[url('/blurredBg.jpg')] 
+        bg-[url('/images/blurredBg.jpg')] 
         bg-cover 
         bg-center 
         flex 
@@ -76,18 +76,18 @@ export default function StartScreen({ onStart }: Props) {
             <h1 className="text-white text-4xl md:text-6xl xl:text-8xl text-center font-mono font-semibold">
               Paper Toss
             </h1>
-            <div className="flex flex-row gap-20 mt-6 justify-center">
+            <div className="flex flex-col md:flex-row gap-10 md:gap-20 mt-6 justify-center items-center">
               <button
                 onClick={onStart}
-                className="bg-white text-black font-mono text-4xl p-3 px-6 rounded-xl hover:bg-white/70"
+                className="bg-white text-black font-mono text-4xl p-3 px-6 inline-block rounded-xl hover:bg-white/70"
               >
                 Start
               </button>
-              <button className="bg-white text-black font-mono text-4xl p-3 px-6 rounded-xl hover:bg-white/70">
+              <button className="bg-white text-black font-mono text-4xl p-3 px-6 w-auto rounded-xl hover:bg-white/70">
                 Exit
               </button>
             </div>
-            <div className=" text-white font-mono text-4xl p-3 flex items-center mt-6 gap-16">
+            <div className=" text-white font-mono text-4xl p-3 flex flex-col md:flex-row items-center mt-6 gap-16">
               <p>
                 Best: <span>{bestScore}</span>
               </p>

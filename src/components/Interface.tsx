@@ -66,8 +66,8 @@ export default function Interface() {
                 <span>{isMuted ? "Unmute" : "Mute"}</span>
               </button>
             </div>
-            <div className="flex flex-col sm:flex-row xl:flex-col items-center lg:text-3xl justify-center gap-0 sm:gap-12 xl:gap-0">
-              <p className="flex gap-1 mb-4 sm:mb-0 xl:mb-4">
+            <div className="flex flex-row xl:flex-col items-center lg:text-3xl justify-center gap-10 sm:gap-12 xl:gap-0">
+              <p className="flex gap-1 mb-0 xl:mb-4">
                 Score:
                 <span ref={scoreRef} />
               </p>
