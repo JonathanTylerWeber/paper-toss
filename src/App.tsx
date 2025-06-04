@@ -1,11 +1,13 @@
 import { Canvas } from "@react-three/fiber";
 import LoadingScreen from "./components/LoadingScreen";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { Html, useProgress } from "@react-three/drei";
 import React from "react";
 import { useGameStore } from "./store/game";
 import { useViewport } from "./hooks/useViewport";
 import StartScreen from "./components/StartScreen";
+import "./utils/audioManager";
+import { bgm, fan } from "./utils/audioManager";
 
 const Experience = React.lazy(() => import("./Experience"));
 const Interface = React.lazy(() => import("./components/Interface"));
@@ -29,6 +31,14 @@ function App() {
   // compute offset for loader
   const { width, orient } = useViewport();
   const y = computeYOffset(width, orient);
+
+  // Pause bgm + fan whenever we return to "start"
+  useEffect(() => {
+    if (phase === "start") {
+      bgm.pause();
+      fan.pause();
+    }
+  }, [phase]);
 
   if (phase === "start")
     return <StartScreen onStart={() => setPhase("game")} />;

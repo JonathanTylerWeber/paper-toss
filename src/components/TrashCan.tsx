@@ -2,29 +2,14 @@ import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import * as THREE from "three";
 import { useGameStore } from "../store/game";
 import { useGLTF, useTexture } from "@react-three/drei";
-import clapUrl from "/sounds/clapping.mp3";
-import metalHitUrl from "/sounds/metalHit.mp3";
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
+import { clap, metalHit } from "../utils/audioManager";
 
 export default function TrashCan() {
   const increment = useGameStore.getState().increment;
   const setIsWindOn = useGameStore((s) => s.setIsWindOn);
   const isThrown = useGameStore((s) => s.isThrown);
   const isMuted = useGameStore((s) => s.isMuted);
-
-  // preload both sounds once
-  const clap = useMemo(() => {
-    const a = new Audio(clapUrl);
-    a.preload = "auto";
-    a.volume = 0.4;
-    return a;
-  }, []);
-  const hit = useMemo(() => {
-    const a = new Audio(metalHitUrl);
-    a.preload = "auto";
-    a.volume = 0.3;
-    return a;
-  }, []);
 
   // guard so hit only retriggers once per play
   const hitPlaying = useRef(false);
@@ -60,13 +45,13 @@ export default function TrashCan() {
           onCollisionEnter={() => {
             if (hitPlaying.current || isMuted) return; // skip if already playing
             hitPlaying.current = true;
-            hit.currentTime = 1; // start 1s in if desired
-            hit.play().catch(() => {});
+            metalHit.el.currentTime = 1; // start 1s in if desired
+            metalHit.play();
 
             // after 1s stop & clear flag
             setTimeout(() => {
-              hit.pause();
-              hit.currentTime = 0;
+              metalHit.pause();
+              metalHit.el.currentTime = 0;
               hitPlaying.current = false;
             }, 1000);
           }}
@@ -100,11 +85,10 @@ export default function TrashCan() {
           onIntersectionEnter={() => {
             if (isThrown) increment();
             if (isMuted) return;
-            clap.currentTime = 1; // start 1s in if you like
-            clap.play().catch(() => {});
+            clap.play();
             setTimeout(() => {
               clap.pause();
-              clap.currentTime = 1;
+              clap.el.currentTime = 1;
             }, 1900);
           }}
         />

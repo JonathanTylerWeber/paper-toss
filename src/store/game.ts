@@ -1,6 +1,6 @@
 // store/game.ts
 import { create } from "zustand";
-import awhUrl from "/sounds/awh.mp3";
+import { awh } from "../utils/audioManager";
 
 type GamePhase = "start" | "game";
 
@@ -37,11 +37,6 @@ function computeThrowStrength(ws: number): number {
 }
 
 export const useGameStore = create<GameState>((set, get) => {
-  // preload your “awh” sound
-  const awh = new Audio(awhUrl);
-  awh.preload = "auto";
-  awh.volume = 0.4;
-
   // read the saved best score (or start at 0)
   const initialBest =
     typeof window !== "undefined"
@@ -101,8 +96,8 @@ export const useGameStore = create<GameState>((set, get) => {
       const prevScore = get().score;
       // play "awh" if they had any points
       if (prevScore > 0 && !get().isMuted) {
-        awh.currentTime = 0;
-        awh.play().catch(() => {});
+        awh.el.currentTime = 0;
+        awh.play();
       }
 
       set((s) => ({

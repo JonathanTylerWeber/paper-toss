@@ -2,19 +2,11 @@ import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import { useGameStore } from "../store/game";
 import { useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import paperURL from "/sounds/paperRustle.wav";
-import { useMemo } from "react";
+import { paperRustle } from "../utils/audioManager";
 
 export default function ThrowPad() {
   const setIsOnPad = useGameStore((s) => s.setIsOnPad);
   const isMuted = useGameStore((s) => s.isMuted);
-
-  const paper = useMemo(() => {
-    const a = new Audio(paperURL);
-    a.preload = "auto";
-    a.volume = 0.2;
-    return a;
-  }, []);
 
   const { scene } = useGLTF("/models/desktop.glb");
 
@@ -62,11 +54,11 @@ export default function ThrowPad() {
           onIntersectionExit={() => {
             setIsOnPad(false);
             if (isMuted) return;
-            paper.currentTime = 0; // start 1s in if you like
-            paper.play().catch(() => {});
+            paperRustle.el.currentTime = 0;
+            paperRustle.play();
             setTimeout(() => {
-              paper.pause();
-              paper.currentTime = 0;
+              paperRustle.pause();
+              paperRustle.el.currentTime = 0;
             }, 2000);
           }}
         />
