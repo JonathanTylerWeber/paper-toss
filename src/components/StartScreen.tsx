@@ -24,9 +24,7 @@ export default function StartScreen({ onStart }: Props) {
 
   const handleStart = () => {
     if (!isMuted) {
-      bgm.play();
-      fan.play();
-      [clap, metalHit, paperRustle, awh].forEach(prime);
+      [clap, metalHit, paperRustle, awh, fan, bgm].forEach(prime);
     }
     onStart(); // switch phase → mounts Experience
   };

@@ -64,6 +64,13 @@ function App() {
     };
   }, [isMuted, phase]);
 
+  useEffect(() => {
+    if (!isLoading && phase === "game" && !isMuted) {
+      bgm.play();
+      fan.play();
+    }
+  }, [isLoading, phase, isMuted]);
+
   if (phase === "start")
     return <StartScreen onStart={() => setPhase("game")} />;
 
