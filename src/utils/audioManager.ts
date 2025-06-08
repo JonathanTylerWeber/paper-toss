@@ -3,6 +3,7 @@ type Sound = {
   el: HTMLAudioElement;
   play: () => void;
   pause: () => void;
+  _primed?: boolean;
 };
 
 function make(loop: boolean, src: string, volume = 0.35): Sound {
@@ -27,11 +28,42 @@ export const paperRustle = make(false, "/sounds/paperRustle.m4a", 0.15);
 export const awh = make(false, "/sounds/awh.m4a", 0.4);
 
 export function prime(sound: Sound) {
+  // Skip if we primed this clip before
+  if (sound._primed) return;
+
   const { el } = sound;
-  const vol = el.volume;
-  el.volume = 0; // silent
-  el.play().catch(() => {});
-  el.pause(); // pauses immediately, but keeps buffer
-  el.currentTime = 0;
-  el.volume = vol; // restore
+  if (el.readyState >= 2) {
+    // already has data
+    sound._primed = true;
+    return;
+  }
+
+  const origVol = el.volume;
+  const origMuted = el.muted;
+
+  el.muted = true; // absolutely no audible leak
+  el.volume = 0;
+
+  const p = el.play();
+  if (p && typeof p.then === "function") {
+    p.then(() => {
+      // Now the browser has activated + buffered the clip
+      el.pause();
+      el.currentTime = 0;
+      el.volume = origVol;
+      el.muted = origMuted;
+      sound._primed = true; // mark as done
+    }).catch(() => {
+      // e.g. user toggled mute before play resolved
+      el.volume = origVol;
+      el.muted = origMuted;
+    });
+  } else {
+    // Very old browsers where play() is sync/void
+    el.pause();
+    el.currentTime = 0;
+    el.volume = origVol;
+    el.muted = origMuted;
+    sound._primed = true;
+  }
 }
