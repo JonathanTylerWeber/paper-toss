@@ -20,8 +20,8 @@ function make(loop: boolean, src: string, volume = 0.35): Sound {
 
 /* --- export the sounds you need everywhere --- */
 export const bgm = make(true, "/sounds/officeNoise.m4a", 0.3);
-export const fan = make(true, "/sounds/fan.m4a", 0.5);
+export const fan = make(true, "/sounds/fan.m4a", 0.4);
 export const clap = make(false, "/sounds/clapping.m4a", 0.4);
-export const metalHit = make(false, "/sounds/metalHit.m4a", 0.35);
-export const paperRustle = make(false, "/sounds/paperRustle.m4a", 0.25);
+export const metalHit = make(false, "/sounds/metalHit.m4a", 0.3);
+export const paperRustle = make(false, "/sounds/paperRustle.m4a", 0.15);
 export const awh = make(false, "/sounds/awh.m4a", 0.4);

@@ -22,6 +22,7 @@ function computeYOffset(w: number, orient: string) {
 function App() {
   const phase = useGameStore((s) => s.phase);
   const setPhase = useGameStore((s) => s.setPhase);
+  const isMuted = useGameStore((s) => s.isMuted);
 
   // Drei hook that tells you how many suspense boundaries are still unresolved
   const { active } = useProgress();
@@ -33,12 +34,35 @@ function App() {
   const y = computeYOffset(width, orient);
 
   // Pause bgm + fan whenever we return to "start"
+  // useEffect(() => {
+  //   if (phase === "start") {
+  //     bgm.pause();
+  //     fan.pause();
+  //   }
+  // }, [phase]);
+
+  // whenever the app/tab loses or gains visibility, pause or (re)start audio
   useEffect(() => {
-    if (phase === "start") {
-      bgm.pause();
-      fan.pause();
-    }
-  }, [phase]);
+    const handleVisibility = () => {
+      if (document.hidden) {
+        bgm.pause();
+        fan.pause();
+      } else if (phase === "game" && !isMuted) {
+        bgm.play();
+        fan.play();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibility);
+    window.addEventListener("blur", handleVisibility);
+    window.addEventListener("focus", handleVisibility);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibility);
+      window.removeEventListener("blur", handleVisibility);
+      window.removeEventListener("focus", handleVisibility);
+    };
+  }, [isMuted, phase]);
 
   if (phase === "start")
     return <StartScreen onStart={() => setPhase("game")} />;
