@@ -1,7 +1,15 @@
 import { Volume2, VolumeX } from "lucide-react";
 import { useGameStore } from "../store/game";
 import { useViewport } from "../hooks/useViewport";
-import { bgm, fan } from "../utils/audioManager";
+import {
+  awh,
+  bgm,
+  clap,
+  fan,
+  metalHit,
+  paperRustle,
+  prime,
+} from "../utils/audioManager";
 
 interface Props {
   onStart: () => void;
@@ -18,6 +26,7 @@ export default function StartScreen({ onStart }: Props) {
     if (!isMuted) {
       bgm.play();
       fan.play();
+      [clap, metalHit, paperRustle, awh].forEach(prime);
     }
     onStart(); // switch phase → mounts Experience
   };
@@ -88,7 +97,8 @@ export default function StartScreen({ onStart }: Props) {
             </h1>
             <div className="flex flex-col md:flex-row gap-10 md:gap-20 mt-6 justify-center items-center">
               <button
-                onClick={onStart}
+                onPointerDown={handleStart}
+                onTouchStart={handleStart}
                 className="bg-white text-black font-mono text-4xl p-3 px-6 inline-block rounded-xl hover:bg-white/70"
               >
                 Start
