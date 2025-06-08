@@ -34,12 +34,12 @@ function App() {
   const y = computeYOffset(width, orient);
 
   // Pause bgm + fan whenever we return to "start"
-  // useEffect(() => {
-  //   if (phase === "start") {
-  //     bgm.pause();
-  //     fan.pause();
-  //   }
-  // }, [phase]);
+  useEffect(() => {
+    if (phase === "start") {
+      bgm.pause();
+      fan.pause();
+    }
+  }, [phase]);
 
   // whenever the app/tab loses or gains visibility, pause or (re)start audio
   useEffect(() => {
