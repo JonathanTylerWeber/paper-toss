@@ -12,9 +12,9 @@ import { bgm, fan } from "./utils/audioManager";
 const Experience = React.lazy(() => import("./Experience"));
 const Interface = React.lazy(() => import("./components/Interface"));
 
-function computeYOffset(w: number, orient: string) {
+function computeYOffset(w: number, orientation: string) {
   if (w <= 640) return 1.75;
-  if (w <= 1024 && orient === "landscape") return 1.8;
+  if (w <= 1024 && orientation === "landscape") return 1.8;
   if (w <= 1024) return 1.75;
   return 1.78;
 }
@@ -30,8 +30,8 @@ function App() {
   const isLoading = phase === "game" && active;
 
   // compute offset for loader
-  const { width, orient } = useViewport();
-  const y = computeYOffset(width, orient);
+  const { width, orientation } = useViewport();
+  const y = computeYOffset(width, orientation);
 
   // Pause bgm + fan whenever we return to "start"
   useEffect(() => {

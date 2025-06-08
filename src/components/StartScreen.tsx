@@ -90,10 +90,10 @@ export default function StartScreen({ onStart }: Props) {
       "
         >
           <div className="bg-black/50 rounded-2xl p-12 xl:p-10">
-            <h1 className="text-white text-4xl sm:text-6xl xl:text-8xl text-center font-mono font-semibold">
+            <h1 className="text-white text-4xl md:text-6xl xl:text-8xl text-center font-mono font-semibold">
               Paper Toss
             </h1>
-            <div className="flex flex-col sm:flex-row gap-10 sm:gap-20 mt-6 justify-center items-center">
+            <div className="flex flex-col md:flex-row gap-10 md:gap-20 mt-6 justify-center items-center">
               <button
                 onPointerDown={handleStart}
                 onTouchStart={handleStart}
@@ -105,7 +105,7 @@ export default function StartScreen({ onStart }: Props) {
                 Exit
               </button>
             </div>
-            <div className=" text-white font-mono text-4xl p-3 flex flex-col sm:flex-row items-center mt-6 gap-16">
+            <div className=" text-white font-mono text-4xl p-3 flex flex-col md:flex-row items-center mt-6 gap-16">
               <p>
                 Best: <span>{bestScore}</span>
               </p>
