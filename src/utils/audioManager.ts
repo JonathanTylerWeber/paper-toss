@@ -27,16 +27,45 @@ export const metalHit = make(false, "/sounds/metalHit.m4a", 0.3);
 export const paperRustle = make(false, "/sounds/paperRustle.m4a", 0.15);
 export const awh = make(false, "/sounds/awh.m4a", 0.4);
 
+// export function prime(sound: Sound) {
+//   if (sound._primed) return;
+
+//   const { el } = sound;
+//   const vol = el.volume;
+//   el.volume = 0; // silent
+//   el.play().catch(() => {});
+//   el.pause(); // pauses immediately, but keeps buffer
+//   el.currentTime = 0;
+//   el.volume = vol; // restore
+
+//   sound._primed = true;
+// }
+
 export function prime(sound: Sound) {
-  if (sound._primed) return;
+  if (sound._primed) return; // already unlocked
 
   const { el } = sound;
-  const vol = el.volume;
-  el.volume = 0; // silent
-  el.play().catch(() => {});
-  el.pause(); // pauses immediately, but keeps buffer
-  el.currentTime = 0;
-  el.volume = vol; // restore
+  const v0 = el.volume;
+  const muted0 = el.muted;
 
-  sound._primed = true;
+  el.volume = 0;
+  el.muted = true; // double‑silence ‑ no leaks
+
+  const finish = () => {
+    el.pause();
+    el.currentTime = 0;
+    el.volume = v0;
+    el.muted = muted0;
+    sound._primed = true; // mark done
+  };
+
+  const maybe = el.play(); // browser unlock + start buffering
+
+  if (maybe && typeof maybe.then === "function") {
+    // Modern browsers: wait until play() is actually accepted
+    maybe.then(finish).catch(finish);
+  } else {
+    // Older Safari/WebViews: fall back to a 60‑ms micro‑timeout
+    setTimeout(finish, 60);
+  }
 }

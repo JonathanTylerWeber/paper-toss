@@ -15,7 +15,7 @@ const Interface = React.lazy(() => import("./components/Interface"));
 function computeYOffset(w: number, orient: string) {
   if (w <= 640) return 1.75;
   if (w <= 1024 && orient === "landscape") return 1.8;
-  if (w <= 1024) return 1.9;
+  if (w <= 1024) return 1.8;
   return 1.78;
 }
 
