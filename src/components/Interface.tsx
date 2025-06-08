@@ -20,7 +20,7 @@ export default function Interface() {
   const setIsMuted = useGameStore((s) => s.setIsMuted);
   const setPhase = useGameStore((s) => s.setPhase);
 
-  const { width, orient } = useViewport();
+  const { width, orientation } = useViewport();
 
   // 1. refs to the DOM elements we want to mutate
   const scoreRef = useRef<HTMLSpanElement>(null);
@@ -38,7 +38,7 @@ export default function Interface() {
 
   return (
     <>
-      {width <= 1024 && orient != "landscape" && (
+      {width <= 1024 && orientation != "landscape" && (
         <div className="absolute top-0 w-full h-[32%] md:h-1/4 bg-slate-700 text-white font-mono pt-10">
           <div className="flex flex-col gap-12 items-center text-2xl sm:gap-6">
             <div
@@ -80,7 +80,7 @@ export default function Interface() {
         </div>
       )}
 
-      {width <= 1024 && orient == "landscape" && (
+      {width <= 1024 && orientation == "landscape" && (
         <div className="absolute z-10 p-4 text-white w-40">
           <div
             className="font-semibold font-mono flex flex-col gap-4 mb-10 w-full lg:text-3xl"
@@ -120,7 +120,7 @@ export default function Interface() {
         </div>
       )}
 
-      {orient != "landscape" && (
+      {orientation != "landscape" && (
         <div
           className="
           absolute 
@@ -155,7 +155,7 @@ export default function Interface() {
         </div>
       )}
 
-      {orient == "landscape" && (
+      {orientation == "landscape" && (
         <div
           className="
           absolute 
