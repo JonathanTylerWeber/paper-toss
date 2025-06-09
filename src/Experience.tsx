@@ -12,9 +12,11 @@ import { useGameStore } from "./store/game";
 import { bgm, fan } from "./utils/audioManager";
 import { useEffect, useState } from "react";
 import { useViewport } from "./hooks/useViewport";
+import { useThree } from "@react-three/fiber";
 
 export default function Experience() {
   useTieredCamera();
+  const { camera } = useThree();
   const { width } = useViewport();
 
   const isMuted = useGameStore((s) => s.isMuted);
@@ -35,6 +37,14 @@ export default function Experience() {
     // refresh shadows only on small screens
     if (width <= 1024) setShadowKey((k) => k + 1);
   }, [windDirection, width]);
+
+  useEffect(() => {
+    if (width <= 1024) {
+      camera.layers.enable(1); // see the ball on small screens
+    } else {
+      camera.layers.disable(1); // tidy up on desktop (optional)
+    }
+  }, [camera, width]);
 
   const freeze = width <= 1024;
 

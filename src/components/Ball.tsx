@@ -3,14 +3,19 @@ import { useRef, useEffect, useMemo } from "react";
 import { useGameStore } from "../store/game";
 import { useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
+import { useViewport } from "../hooks/useViewport";
 
 export default function Ball() {
   const ballRef = useRef<RapierRigidBody>(null);
+  const meshRef = useRef<THREE.Mesh>(null);
+
   const resetCount = useGameStore((s) => s.resetCount);
   const isOnPad = useGameStore((s) => s.isOnPad);
   const throwStrength = useGameStore((s) => s.throwStrength);
   const setIsThrown = useGameStore((s) => s.setIsThrown);
   const setAngle = useGameStore((s) => s.setArrowAngle);
+
+  const { width } = useViewport();
 
   const { nodes } = useGLTF("/models/crumpledPaper.glb");
   const ico = nodes.Icosphere as THREE.Mesh;
@@ -99,6 +104,14 @@ export default function Ball() {
     };
   }, [isOnPad, setAngle, setIsThrown, throwStrength]);
 
+  useEffect(() => {
+    if (!meshRef.current) return;
+
+    // layer 1 for mobile (excludes it from ContactShadows),
+    // layer 0 (default) for desktop
+    meshRef.current.layers.set(width <= 1024 ? 1 : 0);
+  }, [width]);
+
   return (
     <RigidBody
       ref={ballRef}
@@ -106,7 +119,7 @@ export default function Ball() {
       position={[0, 1.76, 4]}
       rotation={[initialEuler.x, initialEuler.y, initialEuler.z]}
     >
-      <mesh scale={5} geometry={ico.geometry}>
+      <mesh ref={meshRef} scale={5} geometry={ico.geometry}>
         <meshBasicMaterial map={bakedTexture} />
       </mesh>
     </RigidBody>
