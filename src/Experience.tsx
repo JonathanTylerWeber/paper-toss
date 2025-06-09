@@ -10,11 +10,15 @@ import CanvasUI from "./components/CanvasUI";
 import useTieredCamera from "./hooks/useTieredCamera";
 import { useGameStore } from "./store/game";
 import { bgm, fan } from "./utils/audioManager";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useViewport } from "./hooks/useViewport";
 
 export default function Experience() {
   useTieredCamera();
+  const { width } = useViewport();
+
   const isMuted = useGameStore((s) => s.isMuted);
+  const windDirection = useGameStore((s) => s.windDirection);
 
   useEffect(() => {
     if (isMuted) {
@@ -26,12 +30,25 @@ export default function Experience() {
     }
   }, [isMuted]);
 
+  const [shadowKey, setShadowKey] = useState(0);
+  useEffect(() => {
+    // refresh shadows only on small screens
+    if (width <= 1024) setShadowKey((k) => k + 1);
+  }, [windDirection, width]);
+
+  const freeze = width <= 1024;
+
   return (
     <>
       <Physics>
         <WindZone />
-        <ContactShadows opacity={0.5} scale={25} />
         <CanvasUI />
+        <ContactShadows
+          key={freeze ? shadowKey : "desktop"}
+          frames={freeze ? 1 : Infinity}
+          opacity={0.5}
+          scale={25}
+        />
 
         <Environment />
         <Fan />
