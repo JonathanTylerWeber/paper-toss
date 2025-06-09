@@ -34,8 +34,8 @@ export default function StartScreen({ onStart }: Props) {
       {width > 1024 && (
         <div
           className="
-        w-screen 
-        h-screen 
+        w-screen-d
+        h-screen-d
         bg-[url('/images/blurredBg.jpg')] 
         bg-cover 
         bg-center 
@@ -79,8 +79,8 @@ export default function StartScreen({ onStart }: Props) {
       {width <= 1024 && (
         <div
           className="
-        w-screen 
-        h-screen 
+        w-screen-d
+        h-screen-d
         bg-[url('/images/blurredBg.jpg')] 
         bg-cover 
         bg-center 

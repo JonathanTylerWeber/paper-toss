@@ -42,7 +42,7 @@ export default function Experience() {
     if (width <= 1024) {
       camera.layers.enable(1); // see the ball on small screens
     } else {
-      camera.layers.disable(1); // tidy up on desktop (optional)
+      camera.layers.disable(1); // tidy up on desktop
     }
   }, [camera, width]);
 

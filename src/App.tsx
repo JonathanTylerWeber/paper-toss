@@ -68,7 +68,7 @@ function App() {
     return <StartScreen onStart={() => setPhase("game")} />;
 
   return (
-    <>
+    <div className="fixed inset-0 w-screen-d h-screen-d overflow-hidden">
       {!isLoading && (
         <Suspense fallback={<LoadingScreen />}>
           <Interface />
@@ -83,7 +83,14 @@ function App() {
           position: [0, 3.75, 7.75],
           rotation: [-0.25, 0, 0],
         }}
-        style={{ touchAction: "none" }}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100dvw", // dynamic units directly
+          height: "100dvh",
+          touchAction: "none",
+          display: "block",
+        }}
         dpr={[1, 1.5]} // cap pixel‑ratio
       >
         <Suspense
@@ -96,7 +103,7 @@ function App() {
           <Experience />
         </Suspense>
       </Canvas>
-    </>
+    </div>
   );
 }
 
