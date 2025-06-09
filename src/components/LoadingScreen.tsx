@@ -7,6 +7,7 @@ export default function LoadingScreen() {
         bg-[url('/images/paperTexture.jpg')]
         bg-cover
         bg-center
+        bg-white
         flex
         items-center
         justify-center
