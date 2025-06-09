@@ -10,13 +10,14 @@ export default function LoadingScreen() {
         flex
         items-center
         justify-center
+        z-40
       "
     >
       <div className="flex flex-col items-center space-y-6">
         <img
           src="/images/crumpledPaper.svg"
           alt="Crumpled Paper"
-          className="size-60 animate-bounce z-40"
+          className="size-40 lg:size-60 animate-bounce z-40"
         />
         <div className="flex justify-center gap-3 z-50">
           <p className="text-3xl md:text-5xl xl:text-7xl font-semibold font-mono">

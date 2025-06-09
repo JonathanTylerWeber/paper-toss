@@ -81,7 +81,7 @@ export default function Interface() {
       )}
 
       {width <= 1024 && orientation == "landscape" && (
-        <div className="absolute z-10 p-4 text-white w-40">
+        <div className="absolute z-10 p-4 text-white w-40 ml-10">
           <div
             className="font-semibold font-mono flex flex-col gap-4 mb-10 w-full lg:text-3xl"
             onPointerDown={(e) => e.stopPropagation()}
@@ -161,7 +161,7 @@ export default function Interface() {
           absolute 
           left-1/2 top-2/3 lg:top-3/4 
           transform -translate-x-1/2
-          -translate-y-[20px]
+          -translate-y-[12px]
           lg:-translate-y-24
           flex flex-col items-center 
           pointer-events-none z-10
@@ -183,7 +183,7 @@ export default function Interface() {
 
           {/* 3. Arrow  */}
           <div
-            className="origin-center"
+            className="origin-center hidden lg:block"
             style={{ transform: `rotate(${rotation}deg)` }}
           >
             <ArrowBigUp className=" size-6 lg:size-12 z-10" />

@@ -90,28 +90,28 @@ export default function StartScreen({ onStart }: Props) {
       "
         >
           <div className="bg-black/50 rounded-2xl p-6 lg:p-12 xl:p-10">
-            <h1 className="text-white text-3xl sm:text-4xl md:text-6xl xl:text-8xl text-center font-mono font-semibold">
+            <h1 className="text-white text-3xl sm:text-4xl lg:text-6xl xl:text-8xl text-center font-mono font-semibold">
               Paper Toss
             </h1>
             <div className="flex flex-col sm:flex-row gap-10 sm:gap-20 mt-6 justify-center items-center">
               <button
                 onPointerDown={handleStart}
                 onTouchStart={handleStart}
-                className="bg-white text-black font-mono text-4xl lg:text-6xl p-3 px-6 inline-block rounded-xl hover:bg-white/70"
+                className="bg-white text-black font-mono text-3xl lg:text-6xl p-3 px-6 inline-block rounded-xl hover:bg-white/70"
               >
                 Start
               </button>
-              <button className="bg-white text-black font-mono text-4xl lg:text-6xl p-3 px-6 w-auto rounded-xl hover:bg-white/70">
+              <button className="bg-white text-black font-mono text-3xl lg:text-6xl p-3 px-6 w-auto rounded-xl hover:bg-white/70">
                 Exit
               </button>
             </div>
-            <div className=" text-white font-mono text-4xl lg:text-6xl p-3 flex flex-col sm:flex-row items-center mt-6 gap-16">
+            <div className=" text-white font-mono text-3xl lg:text-6xl p-3 flex flex-col sm:flex-row items-center mt-6 gap-16">
               <p>
                 Best: <span>{bestScore}</span>
               </p>
               <button
                 onClick={() => setIsMuted(!isMuted)}
-                className="inline-flex items-center justify-center hover:text-gray-700 gap-3 bg-white text-black font-mono text-4xl lg:text-6xl  p-3 px-6 rounded-xl hover:bg-white/70"
+                className="inline-flex items-center justify-center hover:text-gray-700 gap-3 bg-white text-black font-mono text-3xl lg:text-6xl  p-3 px-6 rounded-xl hover:bg-white/70"
               >
                 {isMuted ? <VolumeX size={32} /> : <Volume2 size={32} />}
                 <span>{isMuted ? "Unmute" : "Mute"}</span>

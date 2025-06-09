@@ -26,7 +26,7 @@ export const CAMERA_TIERS: CameraTier[] = [
   {
     maxWidth: 1024,
     orientation: "landscape",
-    preset: { fov: 35, pos: [0, 4.0, 8.5] },
+    preset: { fov: 28, pos: [0, 4.0, 9] },
   },
   {
     maxWidth: Infinity,
