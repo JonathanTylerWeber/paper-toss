@@ -47,11 +47,11 @@ export default function CanvasUI() {
         <meshBasicMaterial color="white" />
       </mesh>
 
-      <Html position={[-4.4, 4.45, -4]}>
-        <div className="[perspective:300px] origin-left">
+      <Html position={[-4.5, 4.5, -4]}>
+        <div className="[perspective:600px] origin-left">
           <div
-            className="[transform:rotateY(10deg)_rotateX(4deg)_rotateZ(0deg)]
-                  text-[4.4vh] font-semibold font-mono flex flex-col "
+            className="[transform:rotateY(25deg)_rotateX(6deg)_rotateZ(0deg)]
+                  text-[4.4vh] font-semibold font-mono flex flex-col"
             onPointerDown={(e) => e.stopPropagation()}
             onPointerUp={(e) => e.stopPropagation()}
           >
@@ -80,10 +80,10 @@ export default function CanvasUI() {
         <meshBasicMaterial color="white" />
       </mesh>
 
-      <Html position={[1.3, 4.15, -4]}>
+      <Html position={[1.28, 4.15, -4]}>
         <div
           className="[transform:rotateY(25deg)_rotateX(-6deg)_rotateZ(-0.5deg)]
-                      text-[2.2vh] font-semibold font-mono flex flex-col gap-1"
+                      text-[2vh] xl:text-[2.2vh] font-semibold font-mono flex flex-col gap-1"
           onPointerDown={(e) => e.stopPropagation()}
           onPointerUp={(e) => e.stopPropagation()}
         >

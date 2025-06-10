@@ -78,7 +78,7 @@ function App() {
 
   return (
     <div className="fixed inset-0 w-screen-d h-screen-d overflow-hidden">
-      {!isLoading && (
+      {audioReadyFlag && !isLoading && (
         <Suspense fallback={<LoadingScreen />}>
           <Interface />
         </Suspense>
