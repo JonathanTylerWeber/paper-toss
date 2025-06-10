@@ -11,7 +11,7 @@ export default function Environment() {
   const { scene } = useGLTF("/models/bakedChanges3.glb");
 
   // Load the texture
-  const bakedTexture = useTexture("/textures/bakedChanges3.jpg");
+  const bakedTexture = useTexture("/textures/office.jpg");
   bakedTexture.flipY = false;
   bakedTexture.colorSpace = THREE.SRGBColorSpace;
 
