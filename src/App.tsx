@@ -7,7 +7,7 @@ import { useGameStore } from "./store/game";
 import { useViewport } from "./hooks/useViewport";
 import StartScreen from "./components/StartScreen";
 import "./utils/audioManager";
-import { bgm, fan } from "./utils/audioManager";
+import { audioReady, bgm, fan, unlockAudioContext } from "./utils/audioManager";
 
 const Experience = React.lazy(() => import("./Experience"));
 const Interface = React.lazy(() => import("./components/Interface"));
@@ -33,16 +33,26 @@ function App() {
   const { width, orientation } = useViewport();
   const y = computeYOffset(width, orientation);
 
-  // Pause bgm + fan whenever we return to "start"
+  /* ------------ 1. ensure context + buffers are ready ------------ */
+  const [audioReadyFlag, setAudioReadyFlag] = React.useState(false);
+
   useEffect(() => {
+    unlockAudioContext(); // resumes on first user gesture
+    audioReady.then(() => setAudioReadyFlag(true));
+  }, []);
+
+  /* ------------ 2. no bgm/fan calls until ready ------------------ */
+  useEffect(() => {
+    if (!audioReadyFlag) return;
     if (phase === "start") {
       bgm.pause();
       fan.pause();
     }
-  }, [phase]);
+  }, [phase, audioReadyFlag]);
 
-  // whenever the app/tab loses or gains visibility, pause or (re)start audio
   useEffect(() => {
+    if (!audioReadyFlag) return;
+
     const handleVisibility = () => {
       if (document.hidden) {
         bgm.pause();
@@ -56,13 +66,12 @@ function App() {
     document.addEventListener("visibilitychange", handleVisibility);
     window.addEventListener("blur", handleVisibility);
     window.addEventListener("focus", handleVisibility);
-
     return () => {
       document.removeEventListener("visibilitychange", handleVisibility);
       window.removeEventListener("blur", handleVisibility);
       window.removeEventListener("focus", handleVisibility);
     };
-  }, [isMuted, phase]);
+  }, [phase, isMuted, audioReadyFlag]);
 
   if (phase === "start")
     return <StartScreen onStart={() => setPhase("game")} />;

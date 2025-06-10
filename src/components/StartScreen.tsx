@@ -1,15 +1,7 @@
 import { Volume2, VolumeX } from "lucide-react";
 import { useGameStore } from "../store/game";
 import { useViewport } from "../hooks/useViewport";
-import {
-  awh,
-  bgm,
-  clap,
-  fan,
-  metalHit,
-  paperRustle,
-  prime,
-} from "../utils/audioManager";
+import { unlockAudioContext, audioReady } from "../utils/audioManager";
 
 interface Props {
   onStart: () => void;
@@ -22,11 +14,10 @@ export default function StartScreen({ onStart }: Props) {
 
   const { width } = useViewport();
 
-  const handleStart = () => {
-    if (!isMuted) {
-      [clap, metalHit, paperRustle, awh, fan, bgm].forEach(prime);
-    }
-    onStart(); // switch phase → mounts Experience
+  const handleStart = async () => {
+    unlockAudioContext();
+    await audioReady; // make sure buffers are decoded
+    onStart(); // now switch to the game phase
   };
 
   return (

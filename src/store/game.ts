@@ -96,7 +96,6 @@ export const useGameStore = create<GameState>((set, get) => {
       const prevScore = get().score;
       // play "awh" if they had any points
       if (prevScore > 0 && !get().isMuted) {
-        awh.el.currentTime = 0;
         awh.play();
       }
 

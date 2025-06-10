@@ -45,15 +45,8 @@ export default function TrashCan() {
           onCollisionEnter={() => {
             if (hitPlaying.current || isMuted) return; // skip if already playing
             hitPlaying.current = true;
-            metalHit.el.currentTime = 1; // start 1s in if desired
-            metalHit.play();
-
-            // after 1s stop & clear flag
-            setTimeout(() => {
-              metalHit.pause();
-              metalHit.el.currentTime = 0;
-              hitPlaying.current = false;
-            }, 1000);
+            metalHit.play(); // one‑shot – finishes automatically
+            setTimeout(() => (hitPlaying.current = false), 1000); // debounce
           }}
         >
           <mesh scale={2}>
@@ -86,10 +79,6 @@ export default function TrashCan() {
             if (isThrown) increment();
             if (isMuted) return;
             clap.play();
-            setTimeout(() => {
-              clap.pause();
-              clap.el.currentTime = 1;
-            }, 1900);
           }}
         />
       </group>

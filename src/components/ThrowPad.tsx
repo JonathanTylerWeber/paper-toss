@@ -54,12 +54,7 @@ export default function ThrowPad() {
           onIntersectionExit={() => {
             setIsOnPad(false);
             if (isMuted) return;
-            paperRustle.el.currentTime = 0;
             paperRustle.play();
-            setTimeout(() => {
-              paperRustle.pause();
-              paperRustle.el.currentTime = 0;
-            }, 2000);
           }}
         />
       </RigidBody>
