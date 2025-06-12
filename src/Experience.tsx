@@ -32,6 +32,8 @@ export default function Experience() {
     }
   }, [isMuted]);
 
+  // ***************
+  // turn off dynamic shadow for mobile
   const [shadowKey, setShadowKey] = useState(0);
   useEffect(() => {
     // refresh shadows only on small screens
@@ -47,6 +49,7 @@ export default function Experience() {
   }, [camera, width]);
 
   const freeze = width <= 1024;
+  // ***************
 
   return (
     <>

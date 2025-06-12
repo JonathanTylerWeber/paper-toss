@@ -1,39 +1,28 @@
 import { Canvas } from "@react-three/fiber";
 import LoadingScreen from "./components/LoadingScreen";
 import { Suspense, useEffect } from "react";
-import { Html, useProgress } from "@react-three/drei";
+import { Html } from "@react-three/drei";
 import React from "react";
 import { useGameStore } from "./store/game";
 import { useViewport } from "./hooks/useViewport";
 import StartScreen from "./components/StartScreen";
 import "./utils/audioManager";
 import { audioReady, bgm, fan, unlockAudioContext } from "./utils/audioManager";
+import computeYOffset from "./utils/computeYOffset";
 
 const Experience = React.lazy(() => import("./Experience"));
-const Interface = React.lazy(() => import("./components/Interface"));
-
-function computeYOffset(w: number, orientation: string) {
-  if (w <= 640) return 1.75;
-  if (w <= 1024 && orientation === "landscape") return 1.8;
-  if (w <= 1024) return 1.75;
-  return 1.78;
-}
 
 function App() {
   const phase = useGameStore((s) => s.phase);
   const setPhase = useGameStore((s) => s.setPhase);
   const isMuted = useGameStore((s) => s.isMuted);
 
-  // Drei hook that tells you how many suspense boundaries are still unresolved
-  const { active } = useProgress();
-
-  const isLoading = phase === "game" && active;
-
   // compute offset for loader
   const { width, orientation } = useViewport();
   const y = computeYOffset(width, orientation);
 
-  /* ------------ 1. ensure context + buffers are ready ------------ */
+  // ***************
+  // ensure context + buffers are ready
   const [audioReadyFlag, setAudioReadyFlag] = React.useState(false);
 
   useEffect(() => {
@@ -41,7 +30,8 @@ function App() {
     audioReady.then(() => setAudioReadyFlag(true));
   }, []);
 
-  /* ------------ 2. no bgm/fan calls until ready ------------------ */
+  // ***************
+  // no bgm/fan calls until ready
   useEffect(() => {
     if (!audioReadyFlag) return;
     if (phase === "start") {
@@ -50,6 +40,8 @@ function App() {
     }
   }, [phase, audioReadyFlag]);
 
+  // ***************
+  // turn off audio when navigating away or muted
   useEffect(() => {
     if (!audioReadyFlag) return;
 
@@ -72,18 +64,13 @@ function App() {
       window.removeEventListener("focus", handleVisibility);
     };
   }, [phase, isMuted, audioReadyFlag]);
+  // ***************
 
   if (phase === "start")
     return <StartScreen onStart={() => setPhase("game")} />;
 
   return (
     <div className="fixed inset-0 w-screen-d h-screen-d overflow-hidden">
-      {audioReadyFlag && !isLoading && (
-        <Suspense fallback={<LoadingScreen />}>
-          <Interface />
-        </Suspense>
-      )}
-
       <Canvas
         camera={{
           fov: 40,
@@ -100,6 +87,7 @@ function App() {
           touchAction: "none",
           display: "block",
         }}
+        className="bg-slate-700"
         dpr={[1, 1.5]} // cap pixel‑ratio
       >
         <Suspense

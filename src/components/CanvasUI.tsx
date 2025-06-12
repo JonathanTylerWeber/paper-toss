@@ -1,39 +1,38 @@
 import { Html } from "@react-three/drei";
 import { useGameStore } from "../store/game";
 import { Volume2, VolumeX } from "lucide-react";
-import { useEffect, useRef } from "react";
 import { purgeAssets } from "../utils/purgeAssets";
 import { useViewport } from "../hooks/useViewport";
 import * as THREE from "three";
+import Interface from "./Interface";
+import WindUI from "./WindUI";
 
 export default function CanvasUI() {
   const isMuted = useGameStore((s) => s.isMuted);
+  const score = useGameStore((s) => s.score);
+  const best = useGameStore((s) => s.bestScore);
   const setIsMuted = useGameStore((s) => s.setIsMuted);
   const setPhase = useGameStore((s) => s.setPhase);
 
-  // 1. refs to the DOM elements we want to mutate
-  const scoreRef = useRef<HTMLSpanElement>(null);
-  const bestRef = useRef<HTMLSpanElement>(null);
-
-  // 2. subscribe outside React render cycle
-  useEffect(() => {
-    const unsub = useGameStore.subscribe((state) => {
-      if (scoreRef.current) scoreRef.current.textContent = String(state.score);
-      if (bestRef.current)
-        bestRef.current.textContent = String(state.bestScore);
-    });
-    return unsub; // clean up
-  }, []);
-
   const { width } = useViewport();
 
+  // mobile
   if (width <= 1024) {
-    return null;
+    return (
+      <Html fullscreen transform={false} position={[0, 2.7, 0]}>
+        <Interface />
+        <WindUI />
+      </Html>
+    );
   }
 
-  // only render for non mobile
+  // non mobile
   return (
     <>
+      <Html transform={false} position={[0, 1.1, 0]}>
+        <WindUI />
+      </Html>
+
       {/* score */}
       <mesh
         position={[-3.68, 3.9, -4]}
@@ -57,11 +56,11 @@ export default function CanvasUI() {
           >
             <p className="flex gap-1">
               Score:
-              <span ref={scoreRef} />
+              <span>{score}</span>
             </p>
             <p className="flex gap-1">
               Best:
-              <span ref={bestRef} />
+              <span>{best}</span>
             </p>
           </div>
         </div>
@@ -84,7 +83,10 @@ export default function CanvasUI() {
         <div
           className="[transform:rotateY(25deg)_rotateX(-6deg)_rotateZ(-0.5deg)]
                       text-[2vh] xl:text-[2.2vh] font-semibold font-mono flex flex-col gap-1"
-          onPointerDown={(e) => e.stopPropagation()}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            console.log("click");
+          }}
           onPointerUp={(e) => e.stopPropagation()}
         >
           <button

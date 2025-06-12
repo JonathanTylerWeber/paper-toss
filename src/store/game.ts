@@ -68,7 +68,6 @@ export const useGameStore = create<GameState>((set, get) => {
       set((s) => {
         const newScore = s.score + 1;
         const newBest = Math.max(s.bestScore, newScore);
-        // if we have a new high score, save it
         if (newBest > s.bestScore) {
           localStorage.setItem("bestScore", newBest.toString());
         }
@@ -94,7 +93,6 @@ export const useGameStore = create<GameState>((set, get) => {
 
     reset: () => {
       const prevScore = get().score;
-      // play "awh" if they had any points
       if (prevScore > 0 && !get().isMuted) {
         awh.play();
       }
